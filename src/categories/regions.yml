@@ -1,0 +1,34 @@
+name: "&c&lWorld &7&lRegions"
+discover_title:
+  title: "&c&lCODEX UPDATED"
+  subtitle: "&7Region: %name%"
+  fade_in: 20
+  stay: 60
+  fade_out: 20
+discover_message:
+- "{centered}&f&m00                                                 00"
+- " "
+- "{centered}&c&lCODEX UPDATED"
+- "{centered}&7World Region: %name%"
+- " "
+- "{centered}&7Check it now by using &e/codex"
+- " "
+- "{centered}&f&m00                                                 00"
+discover_sound:
+  name: BLOCK_GILDED_BLACKSTONE_STEP
+  volume: 10
+  pitch: 0.1
+discoveries:
+  1:
+    name: "&a&lShadow Swamp"
+    lore:
+    - "&7The shadow swamp is a dark place full of"
+    - "&7magical creatures. It has been uninhabited"
+    - "&7for several years."
+    discovered_on_region: shadow_swamp
+  2:
+    name: "&a&lCity of Kryngel"
+    lore:
+    - "&7The center of commerce and the capital of"
+    - "&7the Yubbin province."
+    discovered_on_region: kryngel

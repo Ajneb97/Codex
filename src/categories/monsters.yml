@@ -1,0 +1,33 @@
+name: "&c&lMonsters"
+discover_title:
+  title: "&c&lCODEX UPDATED"
+  subtitle: "&7Monsters: %name%"
+  fade_in: 20
+  stay: 60
+  fade_out: 20
+discover_message:
+- "{centered}&f&m00                                                 00"
+- " "
+- "{centered}&c&lCODEX UPDATED"
+- "{centered}&7Monsters: %name%"
+- " "
+- "{centered}&7Check it now by using &e/codex"
+- " "
+- "{centered}&f&m00                                                 00"
+discover_sound:
+  name: BLOCK_GILDED_BLACKSTONE_STEP
+  volume: 10
+  pitch: 0.1
+discoveries:
+  1:
+    name: "&a&lShadow Warrior"
+    lore:
+    - "&7An abomination found on the Shadow Swamp. It's"
+    - "&7very difficult to beat."
+    - ""
+    - "&6Drops:"
+    - "&c❱ &7Shadow Elixir &8(25%)"
+    - "&c❱ &7Iron Ingot &8(90%)"
+    discovered_on_mob_kill:
+      type: ZOMBIE
+      name: "Shadow Warrior"

@@ -1,0 +1,9 @@
+hide_locked_discoveries_name: true
+locked_discoveries_item: GRAY_DYE
+mysql_database:
+  enabled: false
+  host: localhost
+  port: 3306
+  username: root
+  password: root
+  database: database

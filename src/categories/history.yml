@@ -1,0 +1,31 @@
+name: "&c&lWorld &7&lHistory"
+discover_title:
+  title: "&c&lCODEX UPDATED"
+  subtitle: "&7World History: %name%"
+  fade_in: 20
+  stay: 60
+  fade_out: 20
+discover_message:
+- "{centered}&f&m00                                                 00"
+- " "
+- "{centered}&c&lCODEX UPDATED"
+- "{centered}&7World History: %name%"
+- " "
+- "{centered}&7Check it now by using &e/codex"
+- " "
+- "{centered}&f&m00                                                 00"
+discover_sound:
+  name: BLOCK_GILDED_BLACKSTONE_STEP
+  volume: 10
+  pitch: 0.1
+discoveries:
+  1:
+    name: "&a&lIrium Attack on Kryngel"
+    lore:
+    - "&7400 years ago a mysterious group of people called"
+    - "&7'The Irium' attacked the city of Kryngel by entering"
+    - "&7the sewers unnoticed. They destroyed everything from"
+    - "&7inside, creating chaos across the streets..."
+    commands:
+    - "xp give %player% 50"
+    - "msg %player% &7+50 &6XP"
