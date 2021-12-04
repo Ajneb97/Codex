@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import cx.ajneb97.libs.centeredmessages.DefaultFontInfo;
+import cx.ajneb97.utilidades.UtilidadesOtros;
 import net.md_5.bungee.api.ChatColor;
 
 public class MensajesManager {
@@ -28,7 +29,7 @@ public class MensajesManager {
 	}
 	
 	public static String getMensajeColor(String texto) {
-		if(Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.17")) {
+		if(UtilidadesOtros.esNew()) {
 			Pattern pattern = Pattern.compile("#[a-fA-F0-9]{6}");
 			Matcher match = pattern.matcher(texto);
 			

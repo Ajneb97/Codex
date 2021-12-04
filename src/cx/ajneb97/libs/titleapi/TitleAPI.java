@@ -11,6 +11,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import cx.ajneb97.managers.MensajesManager;
+import cx.ajneb97.utilidades.UtilidadesOtros;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -48,7 +49,7 @@ public class TitleAPI implements Listener {
     }
 
     public static void sendTitle(Player player, Integer fadeIn, Integer stay, Integer fadeOut, String title, String subtitle) {
-    	if(Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.17")) {
+    	if(UtilidadesOtros.esNew()) {
     		if(title.isEmpty()) {
         		title = " ";
         	}
