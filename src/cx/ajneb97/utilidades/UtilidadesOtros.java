@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
+
 
 public class UtilidadesOtros {
 
@@ -53,5 +55,29 @@ public class UtilidadesOtros {
 			discoveriesList.add(sep[i]);
 		}
 		return discoveriesList;
+	}
+	
+	public static String getUnlockedBar(FileConfiguration config,int currentDiscoveries,int maxDiscoveries) {
+		
+		String healthBar = "";
+		if(maxDiscoveries <= 0) {
+			return healthBar;
+		}
+		double amount = config.getInt("progress_bar_placeholder.amount");
+		String symbolFilled = config.getString("progress_bar_placeholder.filled_symbol");
+		String symbolEmpty = config.getString("progress_bar_placeholder.empty_symbol");
+		
+		double division = (double) maxDiscoveries/currentDiscoveries;
+		int filledLines = (int) (amount/division);
+		
+		for(int i=1;i<=amount;i++) {
+			if(i <= filledLines) {
+				healthBar = healthBar+symbolFilled;
+			}else {
+				healthBar = healthBar+symbolEmpty;
+			}
+		}
+		
+		return healthBar;
 	}
 }

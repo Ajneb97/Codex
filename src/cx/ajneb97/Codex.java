@@ -32,6 +32,7 @@ import cx.ajneb97.managers.CodexManager;
 import cx.ajneb97.managers.InventarioManager;
 import cx.ajneb97.managers.JugadorDataManager;
 import cx.ajneb97.managers.MensajesManager;
+import cx.ajneb97.tasks.SavePlayersTask;
 
 public class Codex extends JavaPlugin {
   
@@ -45,6 +46,7 @@ public class Codex extends JavaPlugin {
 	private ConfigsManager configsManager;
 	private CodexManager codexManager;
 	private InventarioManager inventarioManager;
+	private SavePlayersTask savePlayersTask;
 	
 	private WorldGuardAPI worldGuardAPI;
 	
@@ -86,6 +88,7 @@ public class Codex extends JavaPlugin {
 		   new ExpansionCodex(this).register();
 	   }
 	   
+	   restartSavePlayersTask();
 	   checkMessagesUpdate();
 
 	   Bukkit.getConsoleSender().sendMessage(nombrePlugin+ChatColor.YELLOW + "Has been enabled! " + ChatColor.WHITE + "Version: " + version);
@@ -118,6 +121,14 @@ public class Codex extends JavaPlugin {
 			this.getConfig().options().copyDefaults(true);
 			saveConfig();
 		}
+	}
+	
+	public void restartSavePlayersTask() {
+		if(savePlayersTask != null) {
+			savePlayersTask.end();
+		}
+		savePlayersTask = new SavePlayersTask(this);
+		savePlayersTask.start();
 	}
 	
 	public JugadorDataManager getJugadorDataManager() {
@@ -176,6 +187,15 @@ public class Codex extends JavaPlugin {
 			  String textoConfig = new String(Files.readAllBytes(archivoConfig));
 			  FileConfiguration messages = configsManager.getMensajesConfigManager().getMessages();
 			  FileConfiguration config = getConfig();
+			  
+			  if(!textoConfig.contains("progress_bar_placeholder:")){
+				  config.set("progress_bar_placeholder.filled_symbol", "&a|");
+				  config.set("progress_bar_placeholder.empty_symbol", "&c|");
+				  config.set("progress_bar_placeholder.amount", 20);
+				  config.set("data_auto_save_time", 600);
+				  config.set("locked_discoveries_item_custom_model_data", 0);
+				  saveConfig();
+			  }
 			  
 			  if(!textoConfig.contains("mysql_database:")){
 				  config.set("mysql_database.enabled", false);

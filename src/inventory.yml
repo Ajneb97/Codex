@@ -10,7 +10,7 @@ Inventories:
       - "&eIn your adventures you'll find some"
       - "&einteresting knowledge."
       - ""
-      - "&7Unlocked: %unlocked% &8(&7%percentage%&8)"
+      - "&7Unlocked: %unlocked% &8[%progress_bar%&8] &8(&7%percentage%&8)"
       open_inventory: history_discoveries
     22:
       type: regions
@@ -20,7 +20,7 @@ Inventories:
       - "&eDifferent regions you've explored will"
       - "&ebe displayed here."
       - ""
-      - "&7Unlocked: %unlocked% &8(&7%percentage%&8)"
+      - "&7Unlocked: %unlocked% &8[%progress_bar%&8] &8(&7%percentage%&8)"
       open_inventory: regions_discoveries
     23:
       type: monsters
@@ -30,7 +30,7 @@ Inventories:
       - "&eInformation about different monsters you've"
       - "&eencountered."
       - ""
-      - "&7Unlocked: %unlocked% &8(&7%percentage%&8)"
+      - "&7Unlocked: %unlocked% &8[%progress_bar%&8] &8(&7%percentage%&8)"
       open_inventory: monsters_discoveries
     0;8;36;44:
       item: RED_STAINED_GLASS_PANE

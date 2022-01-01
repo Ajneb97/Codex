@@ -263,6 +263,7 @@ public class Comando implements CommandExecutor {
 		plugin.getConfigsManager().getCategoriesConfigsManager().reloadCategories();
 		plugin.getConfigsManager().getInventoryConfigManager().recargar();
 		plugin.reloadConfig();
+		plugin.restartSavePlayersTask();
 		msgManager.enviarMensaje(sender, messages.getString("configReloaded"), true);
 	}
 }

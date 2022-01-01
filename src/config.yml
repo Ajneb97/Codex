@@ -1,5 +1,11 @@
 hide_locked_discoveries_name: true
 locked_discoveries_item: GRAY_DYE
+locked_discoveries_item_custom_model_data: 0
+data_auto_save_time: 600
+progress_bar_placeholder:
+  filled_symbol: "&a|"
+  empty_symbol: "&c|"
+  amount: 20
 mysql_database:
   enabled: false
   host: localhost

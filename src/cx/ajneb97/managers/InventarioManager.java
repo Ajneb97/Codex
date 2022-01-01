@@ -23,6 +23,7 @@ import cx.ajneb97.model.InventarioCodex;
 import cx.ajneb97.model.ItemInventarioCodex;
 import cx.ajneb97.model.JugadorInventario;
 import cx.ajneb97.utilidades.UtilidadesItems;
+import cx.ajneb97.utilidades.UtilidadesOtros;
 import me.clip.placeholderapi.PlaceholderAPI;
 
 public class InventarioManager {
@@ -103,6 +104,7 @@ public class InventarioManager {
 						String variableNombre = "";
 						String variableUnlocked = "";
 						String variablePorcentaje = "";
+						String variableBar = "";
 						List<String> variableLoreItem = null;
 						boolean desbloqueada = false;
 						boolean discovery = false;
@@ -151,6 +153,8 @@ public class InventarioManager {
 									
 									int porcentaje = entradasDesbloqueadas*100/entradasMaximas;
 									variablePorcentaje = porcentaje+"%";
+									
+									variableBar = UtilidadesOtros.getUnlockedBar(config, entradasDesbloqueadas, entradasMaximas);
 								}
 							}
 						}
@@ -209,7 +213,8 @@ public class InventarioManager {
 										lore.remove(i);
 									}
 								}else {
-									lore.set(i, MensajesManager.getMensajeColor(lore.get(i).replace("%unlocked%", variableUnlocked).replace("%percentage%", variablePorcentaje)));
+									lore.set(i, MensajesManager.getMensajeColor(lore.get(i).replace("%unlocked%", variableUnlocked).replace("%percentage%", variablePorcentaje)
+											.replace("%progress_bar%", variableBar)));
 								}
 							}
 							if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null){
@@ -220,6 +225,14 @@ public class InventarioManager {
 							}
 							meta.setLore(lore);
 						}
+						
+						if(discovery && !desbloqueada) {
+							int customModelData = config.getInt("locked_discoveries_item_custom_model_data");
+							if(UtilidadesOtros.esNew() && customModelData != 0) {
+								meta.setCustomModelData(customModelData);
+							}
+						}
+						
 						item.setItemMeta(meta);
 						inv.setItem(slot, item);
 					}

@@ -103,7 +103,6 @@ public class JugadorListener implements Listener{
 									}
 								}
 							});
-							return;
 						}
 					}
 				}
