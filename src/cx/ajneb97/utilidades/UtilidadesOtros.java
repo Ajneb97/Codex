@@ -24,7 +24,7 @@ public class UtilidadesOtros {
 				|| Bukkit.getVersion().contains("1.18")) {
 			return true;
 		}else {
-			return true;
+			return false;
 		}
 	}
 	
