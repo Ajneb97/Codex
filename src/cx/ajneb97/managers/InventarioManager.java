@@ -256,7 +256,7 @@ public class InventarioManager {
 				String category = tipo[0];
 				String discovery = tipo[1];
 				JugadorCodex j = plugin.getJugadorDataManager().getJugadorSync(jugador.getName());
-				if(!j.tieneEntrada(category, discovery)) {
+				if(j == null || !j.tieneEntrada(category, discovery)) {
 					desbloqueado = false;
 				}
 			}
