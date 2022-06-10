@@ -13,7 +13,7 @@ import cx.ajneb97.data.AgregarEntradaCallback;
 import cx.ajneb97.model.CategoriaCodex;
 import cx.ajneb97.model.EntradaCodex;
 import cx.ajneb97.model.EntradaCodexOpcionesMobKill;
-import io.lumine.xikage.mythicmobs.api.bukkit.events.MythicMobDeathEvent;
+import io.lumine.mythic.bukkit.events.MythicMobDeathEvent;
 
 public class MythicMobsListener implements Listener{
 
@@ -26,12 +26,12 @@ public class MythicMobsListener implements Listener{
 	public void alMatarMythicMob(MythicMobDeathEvent event) {
 		LivingEntity killer = event.getKiller();
 		if(killer != null && killer instanceof Player) {
-			Player jugador = (Player) killer;
+			final Player jugador = (Player) killer;
 			String type = event.getMob().getMobType();
 			ArrayList<CategoriaCodex> categorias = plugin.getCategoriasManager().getCategorias();
-			for(CategoriaCodex categoria : categorias) {
+			for(final CategoriaCodex categoria : categorias) {
 				List<EntradaCodex> entradas = categoria.getEntradas();
-				for(EntradaCodex entrada : entradas) {
+				for(final EntradaCodex entrada : entradas) {
 					EntradaCodexOpcionesMobKill opcionesMobKill = entrada.getDiscoveredOnMobKill();
 					if(opcionesMobKill != null) {
 						String mythicMobsId = opcionesMobKill.getMythicMobsId();

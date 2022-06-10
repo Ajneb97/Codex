@@ -47,13 +47,6 @@ public class UtilidadesItems {
         GameProfile profile = new GameProfile(UUID.randomUUID(), null);
         profile.getProperties().put("textures", new Property("textures", textura));
 
-//        try {
-//            Method mtd = skullMeta.getClass().getDeclaredMethod("setProfile", GameProfile.class);
-//            mtd.setAccessible(true);
-//            mtd.invoke(skullMeta, profile);
-//        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {
-//            ex.printStackTrace();
-//        }
         try {
             Field profileField = skullMeta.getClass().getDeclaredField("profile");
             profileField.setAccessible(true);

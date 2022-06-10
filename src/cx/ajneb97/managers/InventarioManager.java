@@ -75,21 +75,21 @@ public class InventarioManager {
 		return null;
 	}
 
-	public void crearInventario(String nombre,Player jugador) {
-		InventarioCodex invCodex = getInventario(nombre);
+	public void crearInventario(final String nombre,final Player jugador) {
+		final InventarioCodex invCodex = getInventario(nombre);
 		if(invCodex == null) {
 			return;
 		}
-		FileConfiguration messages = plugin.getConfigsManager().getMensajesConfigManager().getMessages();
-		FileConfiguration config = plugin.getConfig();
-		boolean esconderNombres = Boolean.valueOf(config.getString("hide_locked_discoveries_name"));
-		CategoriasManager categoriasManager = plugin.getCategoriasManager();
+		final FileConfiguration messages = plugin.getConfigsManager().getMensajesConfigManager().getMessages();
+		final FileConfiguration config = plugin.getConfig();
+		final boolean esconderNombres = Boolean.valueOf(config.getString("hide_locked_discoveries_name"));
+		final CategoriasManager categoriasManager = plugin.getCategoriasManager();
 		JugadorDataManager jugadorManager = plugin.getJugadorDataManager();
-		Inventory inv = Bukkit.createInventory(null, invCodex.getSlots(), MensajesManager.getMensajeColor(invCodex.getTitle()));
+		final Inventory inv = Bukkit.createInventory(null, invCodex.getSlots(), MensajesManager.getMensajeColor(invCodex.getTitle()));
 		
-		String currentUnlockedDiscoveriesColorNone = messages.getString("currentUnlockedDiscoveriesColorNone");
-		String currentUnlockedDiscoveriesColorAll = messages.getString("currentUnlockedDiscoveriesColorAll");
-		String currentUnlockedDiscoveriesColorIncomplete = messages.getString("currentUnlockedDiscoveriesColorIncomplete");
+		final String currentUnlockedDiscoveriesColorNone = messages.getString("currentUnlockedDiscoveriesColorNone");
+		final String currentUnlockedDiscoveriesColorAll = messages.getString("currentUnlockedDiscoveriesColorAll");
+		final String currentUnlockedDiscoveriesColorIncomplete = messages.getString("currentUnlockedDiscoveriesColorIncomplete");
 		
 		jugadorManager.getJugador(jugador.getName(), new JugadorCodexCallback() {
 			@Override

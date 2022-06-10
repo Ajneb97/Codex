@@ -127,12 +127,12 @@ public class Comando implements CommandExecutor {
 		}
 	}
 	
-	public void reset(CommandSender sender,FileConfiguration messages,MensajesManager msgManager,String[] args) {
+	public void reset(final CommandSender sender,final FileConfiguration messages,final MensajesManager msgManager,final String[] args) {
 		   // /codex reset <player> <category> <discovery>
 		   // /codex reset <player> all
 		   if(args.length >= 4) {
-			   String categoria = args[2];
-			   String discovery = args[3];
+			   final String categoria = args[2];
+			   final String discovery = args[3];
 			   
 			   plugin.getJugadorDataManager().getJugador(args[1], new JugadorCodexCallback() {
 				   @Override
@@ -175,23 +175,23 @@ public class Comando implements CommandExecutor {
 		   }
 	}
 	
-	public void unlock(CommandSender sender,FileConfiguration messages,MensajesManager msgManager,String[] args) {
+	public void unlock(final CommandSender sender,final FileConfiguration messages,final MensajesManager msgManager,final String[] args) {
 		   // /codex unlock <player> <category> <discovery> (opcional) true/false
 		   if(args.length >= 4) {
-			   Player player = Bukkit.getPlayer(args[1]);
+			   final Player player = Bukkit.getPlayer(args[1]);
 			   if(player == null || !player.isOnline()) {
 				   msgManager.enviarMensaje(sender, messages.getString("notOnline"), true);
 				   return;
 			   }
-			   String categoria = args[2];
-			   String discovery = args[3];
-			   CategoriaCodex categoriaCodex = plugin.getCategoriasManager().getCategoria(categoria);
+			   final String categoria = args[2];
+			   final String discovery = args[3];
+			   final CategoriaCodex categoriaCodex = plugin.getCategoriasManager().getCategoria(categoria);
 			   if(categoriaCodex == null) {
 				   msgManager.enviarMensaje(sender, messages.getString("categoryNotExists")
 						   .replace("%category%", categoria), true);
 				   return;
 			   }
-			   EntradaCodex entradaCodex = categoriaCodex.getEntrada(discovery);
+			   final EntradaCodex entradaCodex = categoriaCodex.getEntrada(discovery);
 			   if(entradaCodex == null) {
 				   msgManager.enviarMensaje(sender, messages.getString("discoveryNotExists")
 						   .replace("%category%", categoria).replace("%discovery%", discovery), true);

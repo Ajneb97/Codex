@@ -37,12 +37,12 @@ public class JugadorListener implements Listener{
 	
 	@EventHandler
 	public void alEntrarARegion(WorldGuardAPIRegionEnterEvent event) {
-		Player jugador = event.getPlayer();
+		final Player jugador = event.getPlayer();
 		String region = event.getRegion();
 		ArrayList<CategoriaCodex> categorias = plugin.getCategoriasManager().getCategorias();
-		for(CategoriaCodex categoria : categorias) {
+		for(final CategoriaCodex categoria : categorias) {
 			List<EntradaCodex> entradas = categoria.getEntradas();
-			for(EntradaCodex entrada : entradas) {
+			for(final EntradaCodex entrada : entradas) {
 				String nombreRegion = entrada.getDiscoveredOnRegion();
 				if(nombreRegion != null && region.equals(nombreRegion)) {
 					plugin.getJugadorDataManager().agregarEntrada(jugador, categoria.getPath(), entrada.getId(), new AgregarEntradaCallback() {
@@ -62,16 +62,16 @@ public class JugadorListener implements Listener{
 	@EventHandler
 	public void alMatarMob(EntityDeathEvent event) {
 		LivingEntity e = event.getEntity();
-		Player jugador = e.getKiller();
+		final Player jugador = e.getKiller();
 		String nombreEntidad = null;
 		if(e.getCustomName() != null) {
 			nombreEntidad = ChatColor.stripColor(e.getCustomName());
 		}
 		if(jugador != null) {
 			ArrayList<CategoriaCodex> categorias = plugin.getCategoriasManager().getCategorias();
-			for(CategoriaCodex categoria : categorias) {
+			for(final CategoriaCodex categoria : categorias) {
 				List<EntradaCodex> entradas = categoria.getEntradas();
-				for(EntradaCodex entrada : entradas) {
+				for(final EntradaCodex entrada : entradas) {
 					EntradaCodexOpcionesMobKill opcionesMobKill = entrada.getDiscoveredOnMobKill();
 					if(opcionesMobKill != null) {
 						String nombre = opcionesMobKill.getNombre();

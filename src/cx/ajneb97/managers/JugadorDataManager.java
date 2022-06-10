@@ -53,11 +53,11 @@ public class JugadorDataManager {
 		return jugadorCodex;
 	}
 	
-	public void getJugador(String nombre,JugadorCodexCallback callback) {
+	public void getJugador(final String nombre,final JugadorCodexCallback callback) {
 		new BukkitRunnable() {
 			@Override
 			public void run() {
-				JugadorCodex jugadorCodex = getJugadorSync(nombre);
+				final JugadorCodex jugadorCodex = getJugadorSync(nombre);
 
 				new BukkitRunnable() {
 					@Override
@@ -70,7 +70,7 @@ public class JugadorDataManager {
 		}.runTaskAsynchronously(plugin);
 	}
 	
-	public void agregarEntrada(Player jugador,String categoria,String discovery,AgregarEntradaCallback callback) {
+	public void agregarEntrada(final Player jugador,final String categoria,final String discovery,final AgregarEntradaCallback callback) {
 		getJugador(jugador.getName(),new JugadorCodexCallback() {
 			@Override
 			public void onDone(JugadorCodex j) {
@@ -97,7 +97,7 @@ public class JugadorDataManager {
 					agrega = j.agregarEntrada(categoria, discovery);
 				}
 				
-				boolean agregaFinal = agrega;
+				final boolean agregaFinal = agrega;
 				
 				new BukkitRunnable() {
 					@Override
