@@ -44,7 +44,7 @@ public class UtilidadesItems {
 		if (textura.isEmpty()) return item;
 
         SkullMeta skullMeta = (SkullMeta) item.getItemMeta();
-        GameProfile profile = new GameProfile(UUID.randomUUID(), null);
+        GameProfile profile = new GameProfile(UUID.randomUUID(), "");
         profile.getProperties().put("textures", new Property("textures", textura));
 
         try {
