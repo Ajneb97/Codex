@@ -34,13 +34,8 @@ public class CodexManager {
 					opcionesTitle.getFadeOut(), titulo, subtitulo);
 		}
 		if(opcionesSonido != null) {
-			try {
-				jugador.playSound(jugador.getLocation(), Sound.valueOf(opcionesSonido.getName()),
+			jugador.playSound(jugador.getLocation(), opcionesSonido.getName(),
 						opcionesSonido.getVolumen(), opcionesSonido.getPitch());
-			}catch(Exception e) {
-				Bukkit.getConsoleSender().sendMessage(Codex.nombrePlugin+ChatColor.translateAlternateColorCodes('&', 
-						"&7Sound Name: &c"+opcionesSonido.getName()+" &7is not valid. Change it in the config!"));
-			}
 		}
 		if(mensajeDiscover != null) {
 			for(String linea : mensajeDiscover) {
