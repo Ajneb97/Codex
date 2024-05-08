@@ -11,10 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.scheduler.BukkitRunnable;
-
 import cx.ajneb97.Codex;
-import cx.ajneb97.api.CodexAPI;
 import cx.ajneb97.data.JugadorCodex;
 import cx.ajneb97.data.JugadorCodexCallback;
 import cx.ajneb97.model.CategoriaCodex;
@@ -22,8 +19,8 @@ import cx.ajneb97.model.EntradaCodex;
 import cx.ajneb97.model.InventarioCodex;
 import cx.ajneb97.model.ItemInventarioCodex;
 import cx.ajneb97.model.JugadorInventario;
-import cx.ajneb97.utilidades.UtilidadesItems;
-import cx.ajneb97.utilidades.UtilidadesOtros;
+import cx.ajneb97.utils.UtilidadesItems;
+import cx.ajneb97.utils.UtilidadesOtros;
 import me.clip.placeholderapi.PlaceholderAPI;
 
 public class InventarioManager {

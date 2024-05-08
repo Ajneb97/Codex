@@ -3,12 +3,10 @@ package cx.ajneb97.managers;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import cx.ajneb97.libs.centeredmessages.DefaultFontInfo;
-import cx.ajneb97.utilidades.UtilidadesOtros;
+import cx.ajneb97.utils.UtilidadesOtros;
 import net.md_5.bungee.api.ChatColor;
 
 public class MensajesManager {

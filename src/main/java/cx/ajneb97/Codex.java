@@ -11,6 +11,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Connection;
 
+import cx.ajneb97.utils.ServerVersion;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -39,6 +40,7 @@ public class Codex extends JavaPlugin {
 	PluginDescriptionFile pdfFile = getDescription();
 	public String version = pdfFile.getVersion();
 	public String latestversion;
+	public static ServerVersion serverVersion;
 	
 	private JugadorDataManager jugadorDataManager;
 	private CategoriasManager categoriasManager;
@@ -60,6 +62,7 @@ public class Codex extends JavaPlugin {
 	public static String nombrePlugin = ChatColor.translateAlternateColorCodes('&', "&4[&cCodex&4] ");
 	
 	public void onEnable(){
+		setVersion();
 	   primeraVezConfig = false;
 	   this.jugadorDataManager = new JugadorDataManager(this);
 	   this.categoriasManager = new CategoriasManager(this);
@@ -100,6 +103,12 @@ public class Codex extends JavaPlugin {
 		configsManager.getPlayerConfigsManager().guardarJugadores();
 		Bukkit.getConsoleSender().sendMessage(nombrePlugin+ChatColor.YELLOW + "Has been disabled! " + ChatColor.WHITE + "Version: " + version);
 	}
+
+	public void setVersion(){
+		String packageName = Bukkit.getServer().getClass().getPackage().getName();
+		serverVersion = ServerVersion.valueOf(packageName.replace("org.bukkit.craftbukkit.", ""));
+	}
+
 	public void registerCommands(){
 		this.getCommand("codex").setExecutor(new Comando(this));
 	}

@@ -1,16 +1,16 @@
-# Compiled class file
+
 *.class
 
-# Log file
+
 *.log
 
-# BlueJ files
+
 *.ctxt
 
-# Mobile Tools for Java (J2ME)
+
 .mtj.tmp/
 
-# Package Files #
+
 *.jar
 *.war
 *.nar
@@ -18,14 +18,15 @@
 *.zip
 *.tar.gz
 *.rar
+*.iml
+
 
 hs_err_pid*
 
-# Eclipse
+
 .metadata
 bin/
 tmp/
-target/
 *.tmp
 *.bak
 *.swp
@@ -35,7 +36,7 @@ target/
 local.properties
 .settings/
 .loadpath
-.recommenders
 dependency-reduced-pom.xml
-
-src/players/
+.recommenders
+.idea/
+target/

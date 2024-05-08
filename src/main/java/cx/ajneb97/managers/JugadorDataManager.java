@@ -1,11 +1,6 @@
 package cx.ajneb97.managers;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -69,6 +64,38 @@ public class JugadorDataManager {
 			}
 		}.runTaskAsynchronously(plugin);
 	}
+
+	public JugadorCodex getJugadorSyncUUID(String uuid) {
+		JugadorCodex jugadorCodex = null;
+		if(MySQL.isEnabled(plugin.getConfig())) {
+			jugadorCodex = MySQL.getJugadorUUID(uuid, plugin);
+		}else {
+			for(JugadorCodex j : jugadores) {
+				if(j.getUuid() != null && j.getUuid().equals(uuid)) {
+					jugadorCodex = j;
+					break;
+				}
+			}
+		}
+		return jugadorCodex;
+	}
+
+	public void getJugadorUUID(final String uuid,final JugadorCodexCallback callback) {
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				final JugadorCodex jugadorCodex = getJugadorSyncUUID(uuid);
+
+				new BukkitRunnable() {
+					@Override
+					public void run() {
+						callback.onDone(jugadorCodex);
+					}
+
+				}.runTask(plugin);
+			}
+		}.runTaskAsynchronously(plugin);
+	}
 	
 	public void agregarEntrada(final Player jugador,final String categoria,final String discovery,final AgregarEntradaCallback callback) {
 		getJugador(jugador.getName(),new JugadorCodexCallback() {
@@ -126,6 +153,18 @@ public class JugadorDataManager {
 			}
 			
 		}
+	}
+
+	public void actualizarNombreJugador(Player player){
+		getJugadorUUID(player.getUniqueId().toString(), j -> {
+            if(j != null){
+				if(MySQL.isEnabled(plugin.getConfig())) {
+					MySQL.actualizarNombreJugador(plugin,player.getUniqueId().toString(),player.getName());
+				}else{
+					j.setName(player.getName());
+				}
+			}
+        });
 	}
 
 }

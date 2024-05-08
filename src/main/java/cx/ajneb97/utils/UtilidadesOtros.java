@@ -1,4 +1,4 @@
-package cx.ajneb97.utilidades;
+package cx.ajneb97.utils;
 
 import java.util.ArrayList;
 import java.util.List;

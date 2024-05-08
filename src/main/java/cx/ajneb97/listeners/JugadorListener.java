@@ -34,7 +34,12 @@ public class JugadorListener implements Listener{
 	public JugadorListener(Codex plugin) {
 		this.plugin = plugin;
 	}
-	
+
+	@EventHandler
+	public void alEntrar(PlayerJoinEvent event){
+		plugin.getJugadorDataManager().actualizarNombreJugador(event.getPlayer());
+	}
+
 	@EventHandler
 	public void alEntrarARegion(WorldGuardAPIRegionEnterEvent event) {
 		final Player jugador = event.getPlayer();

@@ -19,7 +19,7 @@ import cx.ajneb97.Checks;
 import cx.ajneb97.Codex;
 import cx.ajneb97.model.InventarioCodex;
 import cx.ajneb97.model.ItemInventarioCodex;
-import cx.ajneb97.utilidades.UtilidadesItems;
+import cx.ajneb97.utils.UtilidadesItems;
 
 public class InventoryConfigManager {
 

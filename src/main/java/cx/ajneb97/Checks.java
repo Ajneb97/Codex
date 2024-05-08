@@ -1,10 +1,8 @@
 package cx.ajneb97;
 
 import org.bukkit.configuration.file.FileConfiguration;
-
-import cx.ajneb97.configs.ConfigsManager;
 import cx.ajneb97.configs.InventoryConfigManager;
-import cx.ajneb97.utilidades.UtilidadesOtros;
+import cx.ajneb97.utils.UtilidadesOtros;
 
 public class Checks {
 
