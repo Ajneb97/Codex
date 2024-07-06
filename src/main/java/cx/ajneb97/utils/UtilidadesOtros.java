@@ -3,6 +3,7 @@ package cx.ajneb97.utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import cx.ajneb97.Codex;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -10,24 +11,19 @@ import org.bukkit.configuration.file.FileConfiguration;
 public class UtilidadesOtros {
 
 	public static boolean esLegacy() {
-		if(Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.14") ||
-				Bukkit.getVersion().contains("1.15") || Bukkit.getVersion().contains("1.16")
-				 || Bukkit.getVersion().contains("1.17") || Bukkit.getVersion().contains("1.18")
-				 || Bukkit.getVersion().contains("1.19") || Bukkit.getVersion().contains("1.20")) {
+		ServerVersion serverVersion = Codex.serverVersion;
+		if(serverVersion.serverVersionGreaterEqualThan(serverVersion,ServerVersion.v1_13_R1)) {
 			return false;
-		}else {
-			return true;
 		}
+		return true;
 	}
-	
+
 	public static boolean esNew() {
-		if(Bukkit.getVersion().contains("1.16") || Bukkit.getVersion().contains("1.17")
-				|| Bukkit.getVersion().contains("1.18") || Bukkit.getVersion().contains("1.19")
-				|| Bukkit.getVersion().contains("1.20")) {
+		ServerVersion serverVersion = Codex.serverVersion;
+		if(serverVersion.serverVersionGreaterEqualThan(serverVersion,ServerVersion.v1_16_R1)){
 			return true;
-		}else {
-			return false;
 		}
+		return false;
 	}
 	
 	public static String discoveriesToText(List<String> discoveries) {
