@@ -1,10 +1,13 @@
 package cx.ajneb97.utils;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
 import cx.ajneb97.Codex;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 
 
@@ -77,5 +80,15 @@ public class UtilidadesOtros {
 		}
 		
 		return healthBar;
+	}
+
+	public static Sound getSoundByName(String name){
+		try {
+			Class<?> soundTypeClass = Class.forName("org.bukkit.Sound");
+			Method valueOf = soundTypeClass.getMethod("valueOf", String.class);
+			return (Sound) valueOf.invoke(null,name);
+		} catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException | ClassNotFoundException e) {
+			throw new RuntimeException(e);
+		}
 	}
 }

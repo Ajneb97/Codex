@@ -7,9 +7,11 @@ import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Color;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
@@ -20,6 +22,7 @@ import cx.ajneb97.Codex;
 import cx.ajneb97.model.InventarioCodex;
 import cx.ajneb97.model.ItemInventarioCodex;
 import cx.ajneb97.utils.UtilidadesItems;
+import org.bukkit.inventory.meta.components.CustomModelDataComponent;
 
 public class InventoryConfigManager {
 
@@ -149,6 +152,11 @@ public class InventoryConfigManager {
 							int customModelData = Integer.valueOf(inventory.getString(path+".custom_model_data"));
 							ItemMeta meta = item.getItemMeta();
 							meta.setCustomModelData(customModelData);
+							item.setItemMeta(meta);
+						}
+						if(inventory.contains(path+".custom_model_component_data")) {
+							ItemMeta meta = item.getItemMeta();
+							UtilidadesItems.setCustomModelComponentData(item,inventory,path+".custom_model_component_data",meta);
 							item.setItemMeta(meta);
 						}
 						

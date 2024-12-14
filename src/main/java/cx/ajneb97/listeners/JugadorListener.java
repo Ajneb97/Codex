@@ -3,6 +3,7 @@ package cx.ajneb97.listeners;
 import java.util.ArrayList;
 import java.util.List;
 
+import cx.ajneb97.utils.InventoryUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
@@ -145,7 +146,7 @@ public class JugadorListener implements Listener{
 				return;
 			}else{
 				event.setCancelled(true);
-				if(event.getClickedInventory().equals(jugador.getOpenInventory().getTopInventory())) {
+				if(event.getClickedInventory().equals(InventoryUtils.getTopInventory(jugador))) {
 					int slot = event.getSlot();
 					String inventario = jugadorInv.getInventario();
 					InventarioCodex invCodex = invManager.getInventario(inventario);

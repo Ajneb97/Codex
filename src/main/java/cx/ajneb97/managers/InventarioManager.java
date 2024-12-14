@@ -3,6 +3,7 @@ package cx.ajneb97.managers;
 import java.util.ArrayList;
 import java.util.List;
 
+import cx.ajneb97.utils.ServerVersion;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
@@ -227,6 +228,12 @@ public class InventarioManager {
 							int customModelData = config.getInt("locked_discoveries_item_custom_model_data");
 							if(UtilidadesOtros.esNew() && customModelData != 0) {
 								meta.setCustomModelData(customModelData);
+							}
+
+							ServerVersion serverVersion = Codex.serverVersion;
+							if(config.contains("locked_discoveries_item_custom_model_component_data")
+								 && serverVersion.serverVersionGreaterEqualThan(serverVersion,ServerVersion.v1_21_R3)){
+								UtilidadesItems.setCustomModelComponentData(item,config,"locked_discoveries_item_custom_model_component_data",meta);
 							}
 						}
 						

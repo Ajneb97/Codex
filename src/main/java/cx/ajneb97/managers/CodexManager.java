@@ -2,6 +2,7 @@ package cx.ajneb97.managers;
 
 import java.util.List;
 
+import cx.ajneb97.utils.UtilidadesOtros;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -35,7 +36,7 @@ public class CodexManager {
 		}
 		if(opcionesSonido != null) {
 			try {
-				jugador.playSound(jugador.getLocation(), Sound.valueOf(opcionesSonido.getName()),
+				jugador.playSound(jugador.getLocation(), UtilidadesOtros.getSoundByName(opcionesSonido.getName()),
 						opcionesSonido.getVolumen(), opcionesSonido.getPitch());
 			}catch(Exception e) {
 				Bukkit.getConsoleSender().sendMessage(Codex.nombrePlugin+ChatColor.translateAlternateColorCodes('&', 
