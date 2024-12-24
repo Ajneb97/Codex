@@ -1,11 +1,20 @@
-hide_locked_discoveries_name: true
-locked_discoveries_item: GRAY_DYE
-locked_discoveries_item_custom_model_data: 0
-data_auto_save_time: 600
+# Enables or disables the plugin update message when joining the server.
+update_notify: true
+
+# This option defines the time (in seconds) to automatically save
+# player data.
+player_data_save: 300
+
+# Format to display dates when a discovery was found.
+discoveries_date_format: "dd/MM/yyyy"
+
+# Format of the %progress_bar% variable on the lore of category items.
 progress_bar_placeholder:
   filled_symbol: "&a|"
   empty_symbol: "&c|"
   amount: 20
+
+# MySQL support credentials.
 mysql_database:
   enabled: false
   host: localhost
@@ -13,3 +22,8 @@ mysql_database:
   username: root
   password: root
   database: database
+
+# Don't modify.
+config_version: 2
+
+

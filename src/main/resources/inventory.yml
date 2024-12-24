@@ -1,107 +1,87 @@
-Inventories:
-  main:
+inventories:
+  main_inventory:
     slots: 45
     title: "&4Codex &7» &8All Categories"
     21:
-      type: history
-      item: BOOK
-      name: "&7Category: %name%"
-      lore:
-      - "&eIn your adventures you'll find some"
-      - "&einteresting knowledge."
-      - ""
-      - "&7Unlocked: %unlocked% &8[%progress_bar%&8] &8(&7%percentage%&8)"
-      open_inventory: history_discoveries
+      type: "category: history"
     22:
-      type: regions
-      item: MAP
-      name: "&7Category: %name%"
-      lore:
-      - "&eDifferent regions you've explored will"
-      - "&ebe displayed here."
-      - ""
-      - "&7Unlocked: %unlocked% &8[%progress_bar%&8] &8(&7%percentage%&8)"
-      open_inventory: regions_discoveries
+      type: "category: regions"
     23:
-      type: monsters
-      skull_data: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmZjNGY3M2JmYjcyYzdmYTkwM2VjZjQwMGRkM2JiMTZlMzRlZGNlNjZlMjEwNWU3NjM3OTg1N2FjNjgxNWM3ZCJ9fX0=
-      name: "&7Category: %name%"
-      lore:
-      - "&eInformation about different monsters you've"
-      - "&eencountered."
-      - ""
-      - "&7Unlocked: %unlocked% &8[%progress_bar%&8] &8(&7%percentage%&8)"
-      open_inventory: monsters_discoveries
+      type: "category: monsters"
     0;8;36;44:
-      item: RED_STAINED_GLASS_PANE
-      name: " "
+      item:
+        id: RED_STAINED_GLASS_PANE
+        name: " "
     1;7;9;17;27;35;37;43:
-      item: BLACK_STAINED_GLASS_PANE
-      name: " "
+      item:
+        id: BLACK_STAINED_GLASS_PANE
+        name: " "
     40:
-      item: BARRIER
-      name: '&7Close'
-      open_inventory: close
-  history_discoveries:
+      item:
+        id: BARRIER
+        name: '&7Close'
+      click_actions:
+        - "message: &7Closing the menu."
+        - "close_inventory"
+  category_history:
     slots: 45
     title: "&4Codex &7» &8History"
     11:
-      type: history;1
-      item: PAPER
-      name: "&6Discovery: %name%"
-      lore:
-      - "%lore%"
+      type: "discovery: irium_attack_on_kryngel"
     39:
-      skull_data: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzdhZWU5YTc1YmYwZGY3ODk3MTgzMDE1Y2NhMGIyYTdkNzU1YzYzMzg4ZmYwMTc1MmQ1ZjQ0MTlmYzY0NSJ9fX0=
-      name: "&7Go Back"
-      open_inventory: main
+      item:
+        id: PLAYER_HEAD
+        name: "&7Go Back"
+        skull_data:
+          texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzdhZWU5YTc1YmYwZGY3ODk3MTgzMDE1Y2NhMGIyYTdkNzU1YzYzMzg4ZmYwMTc1MmQ1ZjQ0MTlmYzY0NSJ9fX0="
+      open_inventory: main_inventory
     0;8;36;44:
-      item: BLUE_STAINED_GLASS_PANE
-      name: " "
+      item:
+        id: BLUE_STAINED_GLASS_PANE
+        name: " "
     1;7;9;17;27;35;37;43:
-      item: BLACK_STAINED_GLASS_PANE
-      name: " "
-  regions_discoveries:
+      item:
+        id: BLACK_STAINED_GLASS_PANE
+        name: " "
+  category_regions:
     slots: 45
     title: "&4Codex &7» &8Regions"
     11:
-      type: regions;1
-      item: PAPER
-      name: "&6Discovery: %name%"
-      lore:
-      - "%lore%"
+      type: "discovery: shadow_swamp"
     12:
-      type: regions;2
-      item: PAPER
-      name: "&6Discovery: %name%"
-      lore:
-      - "%lore%"
+      type: "discovery: city_of_kryngel"
     39:
-      skull_data: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzdhZWU5YTc1YmYwZGY3ODk3MTgzMDE1Y2NhMGIyYTdkNzU1YzYzMzg4ZmYwMTc1MmQ1ZjQ0MTlmYzY0NSJ9fX0=
-      name: "&7Go Back"
-      open_inventory: main
+      item:
+        id: PLAYER_HEAD
+        name: "&7Go Back"
+        skull_data:
+          texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzdhZWU5YTc1YmYwZGY3ODk3MTgzMDE1Y2NhMGIyYTdkNzU1YzYzMzg4ZmYwMTc1MmQ1ZjQ0MTlmYzY0NSJ9fX0="
+      open_inventory: main_inventory
     0;8;36;44:
-      item: BLUE_STAINED_GLASS_PANE
-      name: " "
+      item:
+        id: BLUE_STAINED_GLASS_PANE
+        name: " "
     1;7;9;17;27;35;37;43:
-      item: BLACK_STAINED_GLASS_PANE
-      name: " "
-  monsters_discoveries:
+      item:
+        id: BLACK_STAINED_GLASS_PANE
+        name: " "
+  category_monsters:
     slots: 45
     title: "&4Codex &7» &8Monsters"
     11:
-      type: monsters;1
-      item: PAPER
-      name: "&6Discovery: %name%"
-      lore:
-      - "%lore%"
+      type: "discovery: shadow_warrior"
     39:
-      skull_data: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzdhZWU5YTc1YmYwZGY3ODk3MTgzMDE1Y2NhMGIyYTdkNzU1YzYzMzg4ZmYwMTc1MmQ1ZjQ0MTlmYzY0NSJ9fX0=
-      name: "&7Go Back"
-      open_inventory: main
+      item:
+        id: PLAYER_HEAD
+        name: "&7Go Back"
+        skull_data:
+          texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzdhZWU5YTc1YmYwZGY3ODk3MTgzMDE1Y2NhMGIyYTdkNzU1YzYzMzg4ZmYwMTc1MmQ1ZjQ0MTlmYzY0NSJ9fX0="
+      open_inventory: main_inventory
     0;8;36;44:
-      item: BLUE_STAINED_GLASS_PANE
-      name: " "
+      item:
+        id: BLUE_STAINED_GLASS_PANE
+        name: " "
     1;7;9;17;27;35;37;43:
-      item: BLACK_STAINED_GLASS_PANE
-      name: " "    
+      item:
+        id: BLACK_STAINED_GLASS_PANE
+        name: " "

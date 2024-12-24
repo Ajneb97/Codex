@@ -1,11 +1,9 @@
 package cx.ajneb97.api;
 
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
-
 import cx.ajneb97.Codex;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
+import org.bukkit.entity.Player;
+
 /**
  * This class will automatically register as a placeholder expansion 
  * when a jar including this class is added to the directory 
@@ -80,46 +78,36 @@ public class ExpansionCodex extends PlaceholderExpansion {
     public String getVersion(){
         return plugin.getDescription().getVersion();
     }
-  
-    /**
-     * This is the method called when a placeholder with our identifier 
-     * is found and needs a value.
-     * <br>We specify the value identifier in this method.
-     * <br>Since version 2.9.1 can you use OfflinePlayers in your requests.
-     *
-     * @param  player
-     *         A {@link org.bukkit.Player Player}.
-     * @param  identifier
-     *         A String containing the identifier/value.
-     *
-     * @return possibly-null String of the requested identifier.
-     */
+
     @Override
     public String onPlaceholderRequest(Player player, String identifier){
 
         if(player == null){
             return "";
         }
-        
-        
-        if(identifier.startsWith("has_discovery_")){
-        	// %codex_has_discovery_<category>_<discovery>%
-        	String[] sep = identifier.replace("has_discovery_", "").split("_");
-            return CodexAPI.hasUnlockedDiscovery(player, sep[0], sep[1])+"";
-        }else if(identifier.equals("total_discoveries_percentage")){
-        	// %codex_total_discoveries_percentage%
-        	return CodexAPI.getTotalDiscoveriesPercentage(player, null)+"";
-        }else if(identifier.startsWith("total_discoveries_percentage_")){
-        	// %codex_total_discoveries_percentage_<category>%
-        	String category = identifier.replace("total_discoveries_percentage_", "");
-        	return CodexAPI.getTotalDiscoveriesPercentage(player, category)+"";
-        }else if(identifier.equals("total_discoveries")){
+
+        if(identifier.equals("total_discoveries")){
         	// %codex_total_discoveries%
-        	return CodexAPI.getTotalDiscoveries(player, null)+"";
+            return CodexAPI.getTotalDiscoveries(player)+"";
         }else if(identifier.startsWith("total_discoveries_")){
-        	// %codex_total_discoveries_<category>%
-        	String category = identifier.replace("total_discoveries_", "");
-        	return CodexAPI.getTotalDiscoveries(player, category)+"";
+            // %codex_total_discoveries_<category>%
+            String category = identifier.replace("total_discoveries_", "");
+            return CodexAPI.getTotalDiscoveries(player,category)+"";
+        }else if(identifier.equals("total_percentage_discoveries")){
+            // %codex_total_percentage_discoveries%
+            return CodexAPI.getTotalDiscoveriesPercentage(player)+"%";
+        }else if(identifier.startsWith("total_percentage_discoveries_")){
+            // %codex_total_percentage_discoveries_<category>%
+            String category = identifier.replace("total_percentage_discoveries_", "");
+            return CodexAPI.getTotalDiscoveriesPercentage(player,category)+"%";
+        }else if(identifier.startsWith("has_discovery_")){
+            // %codex_has_discovery_<category>:<discovery>%
+            String[] sep = identifier.replace("has_discovery_", "").split(":");
+            return CodexAPI.hasDiscovery(player,sep[0],sep[1])+"";
+        }else if(identifier.startsWith("has_completed_category_")){
+            // %codex_has_completed_category_<category>%
+            String category = identifier.replace("has_completed_category_", "");
+            return CodexAPI.hasCompletedCategory(player,category)+"";
         }
 
         // We return null if an invalid placeholder (f.e. %someplugin_placeholder3%) 

@@ -1,33 +1,56 @@
-name: "&c&lMonsters"
-discover_title:
-  title: "&c&lCODEX UPDATED"
-  subtitle: "&7Monsters: %name%"
-  fade_in: 20
-  stay: 60
-  fade_out: 20
-discover_message:
-- "{centered}&f&m00                                                 00"
-- " "
-- "{centered}&c&lCODEX UPDATED"
-- "{centered}&7Monsters: %name%"
-- " "
-- "{centered}&7Check it now by using &e/codex"
-- " "
-- "{centered}&f&m00                                                 00"
-discover_sound:
-  name: BLOCK_GILDED_BLACKSTONE_STEP
-  volume: 10
-  pitch: 0.1
+config:
+  inventory_items:
+    category:
+      id: PLAYER_HEAD
+      name: "&7Category: #a36bfe&lMonsters"
+      lore:
+        - "#eeeeeeInformation about different monsters you've"
+        - "#eeeeeeencountered."
+        - ""
+        - "&7Unlocked: %unlocked% &8[%progress_bar%&8] &8(&7%percentage%&8)"
+      skull_data:
+        texture: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmZjNGY3M2JmYjcyYzdmYTkwM2VjZjQwMGRkM2JiMTZlMzRlZGNlNjZlMjEwNWU3NjM3OTg1N2FjNjgxNWM3ZCJ9fX0="
+    discovery_unlocked:
+      id: PAPER
+      name: "%name%"
+      lore:
+        - "%description%"
+        - ""
+        - "&8Discovered on %date%"
+    discovery_blocked:
+      id: GRAY_DYE
+      name: "&c??"
+      lore:
+        - "&7You haven't unlocked this discovery yet."
+  rewards:
+    per_discovery:
+      - "centered_message: #a36bfe&m00                                                 00"
+      - "centered_message: "
+      - "centered_message: #eeeeee&lCODEX UPDATED"
+      - "centered_message: &7Monsters: %name%"
+      - "centered_message: "
+      - "centered_message: &7Check it now by using #eeeeee/codex"
+      - "centered_message: "
+      - "centered_message: &7Rewards: &a+50XP"
+      - "centered_message: "
+      - "centered_message: #a36bfe&m00                                                 00"
+      - "title: 20;60;20;#eeeeee&lCODEX UPDATED;&7Monster: %name%"
+      - "playsound: BLOCK_GILDED_BLACKSTONE_STEP;10;0.1"
+      - "console_command: xp give %player% 50"
+    all_discoveries: []
+
 discoveries:
-  1:
-    name: "&a&lShadow Warrior"
-    lore:
-    - "&7An abomination found on the Shadow Swamp. It's"
-    - "&7very difficult to beat."
-    - ""
-    - "&6Drops:"
-    - "&c❱ &7Shadow Elixir &8(25%)"
-    - "&c❱ &7Iron Ingot &8(90%)"
-    discovered_on_mob_kill:
-      type: ZOMBIE
-      name: "Shadow Warrior"
+  shadow_warrior:
+    name: "#a36bfe&lShadow Warrior"
+    description:
+      - "#eeeeeeAn abomination found on the Shadow Swamp. It's"
+      - "#eeeeeevery difficult to beat."
+      - ""
+      - "&7Drops:"
+      - "&8❱ #eeeeeeShadow Elixir &8(25%)"
+      - "&8❱ #eeeeeeIron Ingot &8(90%)"
+    discovered_on:
+      type: MOB_KILL
+      value:
+        mob_type: ZOMBIE
+        mob_name: Shadow Warrior

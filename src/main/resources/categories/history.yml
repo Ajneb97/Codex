@@ -1,31 +1,47 @@
-name: "&c&lWorld &7&lHistory"
-discover_title:
-  title: "&c&lCODEX UPDATED"
-  subtitle: "&7World History: %name%"
-  fade_in: 20
-  stay: 60
-  fade_out: 20
-discover_message:
-- "{centered}&f&m00                                                 00"
-- " "
-- "{centered}&c&lCODEX UPDATED"
-- "{centered}&7World History: %name%"
-- " "
-- "{centered}&7Check it now by using &e/codex"
-- " "
-- "{centered}&f&m00                                                 00"
-discover_sound:
-  name: BLOCK_GILDED_BLACKSTONE_STEP
-  volume: 10
-  pitch: 0.1
+config:
+  inventory_items:
+    category:
+      id: BOOK
+      name: "&7Category: #feb96b&lWorld History"
+      lore:
+        - "#eeeeeeIn your adventures you'll find some"
+        - "#eeeeeeIinteresting knowledge."
+        - ""
+        - "&7Unlocked: %unlocked% &8[%progress_bar%&8] &8(&7%percentage%&8)"
+    discovery_unlocked:
+      id: PAPER
+      name: "%name%"
+      lore:
+        - "%description%"
+        - ""
+        - "&8Discovered on %date%"
+    discovery_blocked:
+      id: GRAY_DYE
+      name: "&c??"
+      lore:
+        - "&7You haven't unlocked this discovery yet."
+  rewards:
+    per_discovery:
+      - "centered_message: #feb96b&m00                                                 00"
+      - "centered_message: "
+      - "centered_message: #eeeeee&lCODEX UPDATED"
+      - "centered_message: &7World History: %name%"
+      - "centered_message: "
+      - "centered_message: &7Check it now by using #eeeeee/codex"
+      - "centered_message: "
+      - "centered_message: &7Rewards: &a+50XP"
+      - "centered_message: "
+      - "centered_message: #feb96b&m00                                                 00"
+      - "title: 20;60;20;#eeeeee&lCODEX UPDATED;&7World History: %name%"
+      - "playsound: BLOCK_GILDED_BLACKSTONE_STEP;10;0.1"
+      - "console_command: xp give %player% 50"
+    all_discoveries: []
+
 discoveries:
-  1:
-    name: "&a&lIrium Attack on Kryngel"
-    lore:
-    - "&7400 years ago a mysterious group of people called"
-    - "&7'The Irium' attacked the city of Kryngel by entering"
-    - "&7the sewers unnoticed. They destroyed everything from"
-    - "&7inside, creating chaos across the streets..."
-    commands:
-    - "xp give %player% 50"
-    - "msg %player% &7+50 &6XP"
+  irium_attack_on_kryngel:
+    name: "#feb96b&lIrium Attack on Kryngel"
+    description:
+      - "#eeeeee400 years ago a mysterious group of people called"
+      - "#eeeeee'The Irium' attacked the city of Kryngel by entering"
+      - "#eeeeeethe sewers unnoticed. They destroyed everything from"
+      - "#eeeeeeinside, creating chaos across the streets..."
