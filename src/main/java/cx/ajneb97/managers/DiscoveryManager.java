@@ -10,10 +10,7 @@ import cx.ajneb97.model.structure.Discovery;
 import cx.ajneb97.utils.ActionUtils;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class DiscoveryManager {
     private Codex plugin;
@@ -83,8 +80,11 @@ public class DiscoveryManager {
         for(Discovery discovery : discoveries){
             DiscoveredOn discoveredOn = discovery.getDiscoveredOn();
             String discoveryMobType = discoveredOn.getMobType();
-            if(discoveryMobType != null && !discoveryMobType.equals(mythicMobType)){
-                continue;
+            if(discoveryMobType != null){
+                String[] sep = discoveryMobType.split(";");
+                if(Arrays.stream(sep).noneMatch(mythicMobType::equals)){
+                    continue;
+                }
             }
 
             onDiscover(player,discovery.getCategoryName(),discovery.getId());

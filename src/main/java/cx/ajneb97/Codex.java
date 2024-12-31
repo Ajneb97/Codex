@@ -7,11 +7,11 @@ import cx.ajneb97.config.ConfigsManager;
 import cx.ajneb97.database.MySQLConnection;
 import cx.ajneb97.listeners.InventoryListener;
 import cx.ajneb97.listeners.PlayerListener;
-import cx.ajneb97.listeners.dependencies.EliteMobsListener;
 import cx.ajneb97.listeners.dependencies.MythicMobsListener;
 import cx.ajneb97.listeners.dependencies.WorldGuardListener;
 import cx.ajneb97.managers.*;
 import cx.ajneb97.managers.dependencies.DependencyManager;
+import cx.ajneb97.managers.dependencies.Metrics;
 import cx.ajneb97.model.internal.UpdateCheckerResult;
 import cx.ajneb97.tasks.PlayerDataSaveTask;
 import cx.ajneb97.utils.ServerVersion;
@@ -71,6 +71,7 @@ public class Codex extends JavaPlugin {
         if(getServer().getPluginManager().getPlugin("PlaceholderAPI") != null){
             new ExpansionCodex(this).register();
         }
+        Metrics metrics = new Metrics(this,24230);
 
         this.verifyManager = new VerifyManager(this);
         this.verifyManager.verify();
