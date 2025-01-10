@@ -130,7 +130,8 @@ public class InventoryManager {
     }
 
     private void clickOnDiscoveryItem(InventoryPlayer inventoryPlayer,String discoveryName,ClickType clickType){
-        Category category = plugin.getCategoryManager().getCategory(inventoryPlayer.getInventoryName().replace("category_",""));
+        String categoryName = inventoryPlayer.getInventoryName().replace("category_","").split(";")[0];
+        Category category = plugin.getCategoryManager().getCategory(categoryName);
         if(category == null){
             return;
         }
@@ -232,7 +233,11 @@ public class InventoryManager {
     }
 
     public ItemStack setDiscovery(String discoveryName,InventoryPlayer inventoryPlayer){
-        Category category = plugin.getCategoryManager().getCategory(inventoryPlayer.getInventoryName().replace("category_",""));
+        // Category could be:
+        // category_<name>
+        // category_<name>;<something>
+        String categoryName = inventoryPlayer.getInventoryName().replace("category_","").split(";")[0];
+        Category category = plugin.getCategoryManager().getCategory(categoryName);
         if(category == null){
             return null;
         }

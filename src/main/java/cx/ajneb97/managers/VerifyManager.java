@@ -124,7 +124,7 @@ public class VerifyManager {
                    }
                }else if(type.startsWith("discovery: ")){
                    String discoveryName = type.replace("discovery: ","");
-                   String categoryName = inventory.getName().replace("category_","");
+                   String categoryName = inventory.getName().replace("category_","").split(";")[0];
                    Category category = categoryManager.getCategory(categoryName);
                    if(category == null || category.getDiscovery(discoveryName) == null){
                        errors.add(new CodexInventoryInvalidDiscoveryError("inventory.yml",null,true,discoveryName,categoryName,
