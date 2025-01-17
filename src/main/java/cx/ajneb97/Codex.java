@@ -7,6 +7,7 @@ import cx.ajneb97.config.ConfigsManager;
 import cx.ajneb97.database.MySQLConnection;
 import cx.ajneb97.listeners.InventoryListener;
 import cx.ajneb97.listeners.PlayerListener;
+import cx.ajneb97.listeners.dependencies.EliteMobsListener;
 import cx.ajneb97.listeners.dependencies.MythicMobsListener;
 import cx.ajneb97.listeners.dependencies.WorldGuardListener;
 import cx.ajneb97.managers.*;
@@ -107,11 +108,11 @@ public class Codex extends JavaPlugin {
         if(dependencyManager.isMythicMobs()){
             pm.registerEvents(new MythicMobsListener(this), this);
         }
-        /*
+
         if(dependencyManager.isEliteMobs()){
             pm.registerEvents(new EliteMobsListener(this), this);
         }
-         */
+
     }
 
     public void setPrefix(){
@@ -207,7 +208,7 @@ public class Codex extends JavaPlugin {
             String latestVersion = result.getLatestVersion();
             if(latestVersion != null){
                 Bukkit.getConsoleSender().sendMessage(MessagesManager.getColoredMessage("&cThere is a new version available. &e(&7"+latestVersion+"&e)"));
-                Bukkit.getConsoleSender().sendMessage(MessagesManager.getColoredMessage("&cYou can download it at: &fhttps://www.spigotmc.org/resources/90371/"));
+                Bukkit.getConsoleSender().sendMessage(MessagesManager.getColoredMessage("&cYou can download it at: &fhttps://modrinth.com/plugin/codex-rpg-discoveries"));
             }
         }else{
             Bukkit.getConsoleSender().sendMessage(MessagesManager.getColoredMessage(prefix+" &cError while checking update."));

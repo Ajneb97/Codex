@@ -77,29 +77,23 @@ public class DiscoveryManager {
 
     public void onMythicMobKill(Player player, String mythicMobType){
         ArrayList<Discovery> discoveries = getPossibleDiscoveries(DiscoveredOn.DiscoveredOnType.MYTHIC_MOB_KILL);
+        onPluginMobKill(player,mythicMobType,discoveries);
+    }
+
+    public void onEliteMobKill(Player player, String eliteMobType){
+        ArrayList<Discovery> discoveries = getPossibleDiscoveries(DiscoveredOn.DiscoveredOnType.ELITE_MOB_KILL);
+        onPluginMobKill(player,eliteMobType.replace(".yml",""),discoveries);
+    }
+
+    private void onPluginMobKill(Player player, String mobType, ArrayList<Discovery> discoveries){
         for(Discovery discovery : discoveries){
             DiscoveredOn discoveredOn = discovery.getDiscoveredOn();
             String discoveryMobType = discoveredOn.getMobType();
             if(discoveryMobType != null){
                 String[] sep = discoveryMobType.split(";");
-                if(Arrays.stream(sep).noneMatch(mythicMobType::equals)){
+                if(Arrays.stream(sep).noneMatch(mobType::equals)){
                     continue;
                 }
-            }
-
-            onDiscover(player,discovery.getCategoryName(),discovery.getId());
-
-            return;
-        }
-    }
-
-    public void onEliteMobKill(Player player, String eliteMobType){
-        ArrayList<Discovery> discoveries = getPossibleDiscoveries(DiscoveredOn.DiscoveredOnType.ELITE_MOB_KILL);
-        for(Discovery discovery : discoveries){
-            DiscoveredOn discoveredOn = discovery.getDiscoveredOn();
-            String discoveryMobType = discoveredOn.getMobType();
-            if(discoveryMobType != null && !discoveryMobType.equals(eliteMobType)){
-                continue;
             }
 
             onDiscover(player,discovery.getCategoryName(),discovery.getId());

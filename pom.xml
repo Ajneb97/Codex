@@ -93,7 +93,7 @@
         <dependency>
             <groupId>com.magmaguy</groupId>
             <artifactId>EliteMobs</artifactId>
-            <version>9.1.11</version>
+            <version>9.2.3</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
