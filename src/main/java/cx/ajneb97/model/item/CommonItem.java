@@ -26,7 +26,10 @@ public class CommonItem {
     private CommonItemBannerData bannerData;
     private CommonItemBookData bookData;
     private CommonItemTrimData trimData;
-    private CommonItemCustomModelComponentData customModelComponentData;
+    private CommonItemCustomModelComponentData customModelComponentData; // 1.21.4+
+
+    private boolean hideTooltip; // 1.20.6+
+    private String tooltipStyle; // 1.21.2+
 
     public CommonItem(String id) {
         this.id = id;
@@ -188,28 +191,47 @@ public class CommonItem {
         this.customModelComponentData = customModelComponentData;
     }
 
+    public boolean isHideTooltip() {
+        return hideTooltip;
+    }
+
+    public void setHideTooltip(boolean hideTooltip) {
+        this.hideTooltip = hideTooltip;
+    }
+
+    public String getTooltipStyle() {
+        return tooltipStyle;
+    }
+
+    public void setTooltipStyle(String tooltipStyle) {
+        this.tooltipStyle = tooltipStyle;
+    }
+
     public CommonItem clone(){
-        CommonItem kitItem = new CommonItem(id);
-        kitItem.setAmount(amount);
-        kitItem.setName(name);
-        kitItem.setLore(lore != null ? new ArrayList<>(lore) : null);
-        kitItem.setDurability(durability);
-        kitItem.setCustomModelData(customModelData);
-        kitItem.setEnchants(enchants != null ? new ArrayList<>(enchants) : null);
-        kitItem.setFlags(flags != null ? new ArrayList<>(flags) : null);
-        kitItem.setBookEnchants(bookEnchants != null ? new ArrayList<>(bookEnchants) : null);
-        kitItem.setColor(color);
-        kitItem.setNbt(nbt != null ? new ArrayList<>(nbt) : null);
-        kitItem.setAttributes(attributes != null ? new ArrayList<>(attributes) : null);
+        CommonItem commonItem = new CommonItem(id);
+        commonItem.setAmount(amount);
+        commonItem.setName(name);
+        commonItem.setLore(lore != null ? new ArrayList<>(lore) : null);
+        commonItem.setDurability(durability);
+        commonItem.setCustomModelData(customModelData);
+        commonItem.setEnchants(enchants != null ? new ArrayList<>(enchants) : null);
+        commonItem.setFlags(flags != null ? new ArrayList<>(flags) : null);
+        commonItem.setBookEnchants(bookEnchants != null ? new ArrayList<>(bookEnchants) : null);
+        commonItem.setColor(color);
+        commonItem.setNbt(nbt != null ? new ArrayList<>(nbt) : null);
+        commonItem.setAttributes(attributes != null ? new ArrayList<>(attributes) : null);
 
-        kitItem.setSkullData(skullData != null ? skullData.clone() : null);
-        kitItem.setPotionData(potionData != null ? potionData.clone() : null);
-        kitItem.setFireworkData(fireworkData != null ? fireworkData.clone() : null);
-        kitItem.setBannerData(bannerData != null ? bannerData.clone() : null);
-        kitItem.setBookData(bookData != null ? bookData.clone() : null);
-        kitItem.setTrimData(trimData != null ? trimData.clone() : null);
-        kitItem.setCustomModelComponentData(customModelComponentData != null ? customModelComponentData.clone() : null);
+        commonItem.setSkullData(skullData != null ? skullData.clone() : null);
+        commonItem.setPotionData(potionData != null ? potionData.clone() : null);
+        commonItem.setFireworkData(fireworkData != null ? fireworkData.clone() : null);
+        commonItem.setBannerData(bannerData != null ? bannerData.clone() : null);
+        commonItem.setBookData(bookData != null ? bookData.clone() : null);
+        commonItem.setTrimData(trimData != null ? trimData.clone() : null);
+        commonItem.setCustomModelComponentData(customModelComponentData != null ? customModelComponentData.clone() : null);
 
-        return kitItem;
+        commonItem.setHideTooltip(hideTooltip);
+        commonItem.setTooltipStyle(tooltipStyle);
+
+        return commonItem;
     }
 }

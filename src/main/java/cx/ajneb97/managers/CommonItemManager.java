@@ -7,6 +7,7 @@ import cx.ajneb97.utils.ItemUtils;
 import cx.ajneb97.utils.OtherUtils;
 import cx.ajneb97.utils.ServerVersion;
 import org.bukkit.Color;
+import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -102,6 +103,19 @@ public class CommonItemManager {
                             customModelDataComponentFloatsList,
                             customModelDataComponentStringsList
                     ));
+                }
+            }
+
+            if(serverVersion.serverVersionGreaterEqualThan(serverVersion,ServerVersion.v1_20_R4)){
+                if(meta.isHideTooltip()){
+                    commonItem.setHideTooltip(true);
+                }
+            }
+
+            if(serverVersion.serverVersionGreaterEqualThan(serverVersion,ServerVersion.v1_21_R2)){
+                if(meta.hasTooltipStyle()){
+                    NamespacedKey key = meta.getTooltipStyle();
+                    commonItem.setTooltipStyle(key.getNamespace()+":"+key.getKey());
                 }
             }
 
@@ -203,6 +217,20 @@ public class CommonItemManager {
             }
         }
 
+        if(serverVersion.serverVersionGreaterEqualThan(serverVersion,ServerVersion.v1_20_R4)){
+            if(commonItem.isHideTooltip()){
+                meta.setHideTooltip(true);
+            }
+        }
+
+        if(serverVersion.serverVersionGreaterEqualThan(serverVersion,ServerVersion.v1_21_R2)){
+            String tooltipStyle = commonItem.getTooltipStyle();
+            if(tooltipStyle != null){
+                String[] sep = tooltipStyle.split(":");
+                meta.setTooltipStyle(new NamespacedKey(sep[0],sep[1]));
+            }
+        }
+
         item.setItemMeta(meta);
 
         //OTHER META
@@ -298,6 +326,13 @@ public class CommonItemManager {
             if(!customModelComponentData.getFloats().isEmpty()) config.set(path+".custom_model_component_data.floats",customModelComponentData.getFloats());
             if(!customModelComponentData.getColors().isEmpty()) config.set(path+".custom_model_component_data.colors",customModelComponentData.getColors());
             if(!customModelComponentData.getStrings().isEmpty()) config.set(path+".custom_model_component_data.strings",customModelComponentData.getStrings());
+        }
+
+        if(item.isHideTooltip()){
+            config.set(path+".hide_tooltip", true);
+        }
+        if(item.getTooltipStyle() != null){
+            config.set(path+".tooltip_style",item.getTooltipStyle());
         }
 
         if(item.getColor() != 0) {
@@ -403,6 +438,9 @@ public class CommonItemManager {
 
             customModelComponentData = new CommonItemCustomModelComponentData(cFlags,cColors,cFloats,cStrings);
         }
+
+        boolean hideTooltip = config.getBoolean(path+".hide_tooltip");
+        String tooltipStyle = config.contains(path+".tooltip_style") ? config.getString(path+".tooltip_style") : null;
 
         CommonItemSkullData skullData = null;
         if(config.contains(path+".skull_data")) {
@@ -519,6 +557,8 @@ public class CommonItemManager {
         commonItem.setBookData(bookData);
         commonItem.setTrimData(trimData);
         commonItem.setCustomModelComponentData(customModelComponentData);
+        commonItem.setHideTooltip(hideTooltip);
+        commonItem.setTooltipStyle(tooltipStyle);
 
         return commonItem;
     }
