@@ -30,6 +30,7 @@ public class CommonItem {
 
     private boolean hideTooltip; // 1.20.6+
     private String tooltipStyle; // 1.21.2+
+    private String model; // 1.21.4+
 
     public CommonItem(String id) {
         this.id = id;
@@ -207,6 +208,14 @@ public class CommonItem {
         this.tooltipStyle = tooltipStyle;
     }
 
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
     public CommonItem clone(){
         CommonItem commonItem = new CommonItem(id);
         commonItem.setAmount(amount);
@@ -231,6 +240,7 @@ public class CommonItem {
 
         commonItem.setHideTooltip(hideTooltip);
         commonItem.setTooltipStyle(tooltipStyle);
+        commonItem.setModel(model);
 
         return commonItem;
     }

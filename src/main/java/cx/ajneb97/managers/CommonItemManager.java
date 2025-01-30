@@ -119,6 +119,13 @@ public class CommonItemManager {
                 }
             }
 
+            if(serverVersion.serverVersionGreaterEqualThan(serverVersion,ServerVersion.v1_21_R3)){
+                if(meta.hasItemModel()){
+                    NamespacedKey key = meta.getItemModel();
+                    commonItem.setModel(key.getNamespace()+":"+key.getKey());
+                }
+            }
+
             if(meta instanceof LeatherArmorMeta) {
                 LeatherArmorMeta meta2 = (LeatherArmorMeta) meta;
                 commonItem.setColor(meta2.getColor().asRGB());
@@ -231,6 +238,14 @@ public class CommonItemManager {
             }
         }
 
+        if(serverVersion.serverVersionGreaterEqualThan(serverVersion,ServerVersion.v1_21_R3)){
+            String model = commonItem.getModel();
+            if(model != null){
+                String[] sep = model.split(":");
+                meta.setItemModel(new NamespacedKey(sep[0],sep[1]));
+            }
+        }
+
         item.setItemMeta(meta);
 
         //OTHER META
@@ -333,6 +348,9 @@ public class CommonItemManager {
         }
         if(item.getTooltipStyle() != null){
             config.set(path+".tooltip_style",item.getTooltipStyle());
+        }
+        if(item.getModel() != null){
+            config.set(path+".model",item.getModel());
         }
 
         if(item.getColor() != 0) {
@@ -441,6 +459,7 @@ public class CommonItemManager {
 
         boolean hideTooltip = config.getBoolean(path+".hide_tooltip");
         String tooltipStyle = config.contains(path+".tooltip_style") ? config.getString(path+".tooltip_style") : null;
+        String model = config.contains(path+".model") ? config.getString(path+".model") : null;
 
         CommonItemSkullData skullData = null;
         if(config.contains(path+".skull_data")) {
@@ -559,6 +578,7 @@ public class CommonItemManager {
         commonItem.setCustomModelComponentData(customModelComponentData);
         commonItem.setHideTooltip(hideTooltip);
         commonItem.setTooltipStyle(tooltipStyle);
+        commonItem.setModel(model);
 
         return commonItem;
     }
