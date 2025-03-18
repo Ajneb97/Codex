@@ -51,7 +51,7 @@ public class ConfigsManager {
 		if(!inventoryConfigManager.reloadConfig()){
 			return false;
 		}
-		categoriesConfigManager.reloadConfigs();
+		categoriesConfigManager.loadConfigs();
 		plugin.reloadPlayerDataSaveTask();
 
 		plugin.getVerifyManager().verify();
