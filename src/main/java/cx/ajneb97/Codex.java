@@ -138,6 +138,9 @@ public class Codex extends JavaPlugin {
             case "1.21.4":
                 serverVersion = ServerVersion.v1_21_R3;
                 break;
+            case "1.21.5":
+                serverVersion = ServerVersion.v1_21_R4;
+                break;
             default:
                 serverVersion = ServerVersion.valueOf(packageName.replace("org.bukkit.craftbukkit.", ""));
         }
