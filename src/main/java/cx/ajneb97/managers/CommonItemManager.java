@@ -159,7 +159,7 @@ public class CommonItemManager {
 
         return commonItem;
     }
-    public ItemStack createItemFromCommonItem(CommonItem commonItem){
+    public ItemStack createItemFromCommonItem(CommonItem commonItem, Player player){
         ItemStack item = ItemUtils.createItemFromID(commonItem.getId());
         item.setAmount(commonItem.getAmount());
 
@@ -172,6 +172,7 @@ public class CommonItemManager {
         ItemMeta meta = item.getItemMeta();
         String name = commonItem.getName();
         if(name != null){
+            name = OtherUtils.replaceGlobalVariables(name,player,plugin);
             meta.setDisplayName(MessagesManager.getColoredMessage(name));
         }
 
@@ -179,7 +180,8 @@ public class CommonItemManager {
         if(lore != null) {
             List<String> loreCopy = new ArrayList<String>(lore);
             for(int i=0;i<loreCopy.size();i++) {
-                loreCopy.set(i, MessagesManager.getColoredMessage(loreCopy.get(i)));
+                String line = OtherUtils.replaceGlobalVariables(loreCopy.get(i),player,plugin);
+                loreCopy.set(i, MessagesManager.getColoredMessage(line));
             }
             meta.setLore(loreCopy);
         }

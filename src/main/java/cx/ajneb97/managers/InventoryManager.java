@@ -97,7 +97,7 @@ public class InventoryManager {
                     continue;
                 }
 
-                ItemStack item = commonItemManager.createItemFromCommonItem(itemInventory.getItem());
+                ItemStack item = commonItemManager.createItemFromCommonItem(itemInventory.getItem(),player);
 
                 String openInventory = itemInventory.getOpenInventory();
                 if(openInventory != null) {
@@ -225,7 +225,7 @@ public class InventoryManager {
         variables.add(new CommonVariable("%percentage%", OtherUtils.getPercentage(totalDiscoveries,max)+"%"));
         variables.add(new CommonVariable("%unlocked%", MessagesManager.getColoredMessage(unlockedVariable)));
 
-        ItemStack item = commonItemManager.createItemFromCommonItem(commonItem);
+        ItemStack item = commonItemManager.createItemFromCommonItem(commonItem,player);
         commonItemManager.replaceVariables(item,variables,player);
 
         item = ItemUtils.setTagStringItem(plugin,item,"codex_category",categoryName);
@@ -258,21 +258,19 @@ public class InventoryManager {
         ItemStack item;
         if(playerDataDiscovery != null){
             if(discovery.getCustomLevelUnlockedItem() != null){
-                item = commonItemManager.createItemFromCommonItem(discovery.getCustomLevelUnlockedItem());
+                item = commonItemManager.createItemFromCommonItem(discovery.getCustomLevelUnlockedItem(),player);
             }else{
-                item = commonItemManager.createItemFromCommonItem(category.getDefaultLevelUnlockedItem());
+                item = commonItemManager.createItemFromCommonItem(category.getDefaultLevelUnlockedItem(),player);
             }
             variables.add(new CommonVariable("%name%",MessagesManager.getColoredMessage(discovery.getName())));
             variables.add(new CommonVariable("%date%",MessagesManager.getColoredMessage(playerDataDiscovery.getDiscoverDate())));
         }else{
             if(discovery.getCustomLevelBlockedItem() != null){
-                item = commonItemManager.createItemFromCommonItem(discovery.getCustomLevelBlockedItem());
+                item = commonItemManager.createItemFromCommonItem(discovery.getCustomLevelBlockedItem(),player);
             }else{
-                item = commonItemManager.createItemFromCommonItem(category.getDefaultLevelBlockedItem());
+                item = commonItemManager.createItemFromCommonItem(category.getDefaultLevelBlockedItem(),player);
             }
         }
-
-        commonItemManager.replaceVariables(item,variables,player);
 
         // Replace %description% variable
         ItemMeta meta = item.getItemMeta();
@@ -290,6 +288,8 @@ public class InventoryManager {
         }
         meta.setLore(newLore);
         item.setItemMeta(meta);
+
+        commonItemManager.replaceVariables(item,variables,player);
 
         item = ItemUtils.setTagStringItem(plugin,item,"codex_discovery",discoveryName);
         return item;
