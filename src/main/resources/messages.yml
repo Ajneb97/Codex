@@ -24,3 +24,8 @@ inventoryDoesNotExists: "&cThe inventory &7%inventory% &cdoesn't exist."
 playerOpenInventory: "&aInventory &7%inventory% &aopened for &e%player%&a!"
 commandDoesNotExist: "&cThat command doesn't exist."
 pluginCriticalErrors: "&cThe plugin has detected some errors. Check them using &7/codex verify"
+clickActionsCooldown: "&cYou must wait &7%time% &cbefore using this item again."
+seconds: s
+minutes: m
+hours: h
+days: d

@@ -9,10 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -72,7 +69,8 @@ public class MySQLConnection {
                             "(SELECT GROUP_CONCAT(cc.Category) FROM codex_players_completed_categories cc WHERE cc.UUID = codex_players.UUID) AS COMPLETED_CATEGORIES, " +
                             "codex_players_discoveries.CATEGORY AS DISCOVERY_CATEGORY, " +
                             "codex_players_discoveries.DISCOVERY, " +
-                            "codex_players_discoveries.DATE " +
+                            "codex_players_discoveries.DATE, " +
+                            "codex_players_discoveries.MILLIS_ACTIONS_EXECUTED " +
                             "FROM codex_players " +
                             "LEFT JOIN codex_players_discoveries ON codex_players.UUID = codex_players_discoveries.UUID");
 
@@ -84,6 +82,7 @@ public class MySQLConnection {
                 String discoveryCategoryName = result.getString("DISCOVERY_CATEGORY");
                 String discoveryName = result.getString("DISCOVERY");
                 String discoveryDate = result.getString("DATE");
+                long discoveryMillisActionsExecuted = result.getLong("MILLIS_ACTIONS_EXECUTED");
 
                 PlayerData player = playerMap.get(uuid);
                 if(player == null){
@@ -100,7 +99,7 @@ public class MySQLConnection {
                         player.getCategories().add(playerDataCategory);
                     }
 
-                    playerDataCategory.getDiscoveries().add(new PlayerDataDiscovery(discoveryName,discoveryDate));
+                    playerDataCategory.getDiscoveries().add(new PlayerDataDiscovery(discoveryName,discoveryDate,discoveryMillisActionsExecuted));
                 }
             }
         } catch (SQLException e) {
@@ -126,6 +125,7 @@ public class MySQLConnection {
                     " CATEGORY varchar(100), " +
                     " DISCOVERY varchar(100), " +
                     " DATE varchar(100), " +
+                    " MILLIS_ACTIONS_EXECUTED bigint, " +
                     " PRIMARY KEY ( ID ), " +
                     " FOREIGN KEY (UUID) REFERENCES codex_players(UUID))");
             statement2.executeUpdate();
@@ -137,6 +137,16 @@ public class MySQLConnection {
                             " PRIMARY KEY ( ID ), " +
                             " FOREIGN KEY (UUID) REFERENCES codex_players(UUID))");
             statement3.executeUpdate();
+
+            DatabaseMetaData dbm = connection.getMetaData();
+            ResultSet rs = dbm.getColumns(null, null, "codex_players_discoveries", "MILLIS_ACTIONS_EXECUTED");
+            if (!rs.next()) {
+                // Column doesn't exist.
+                PreparedStatement alterStatement = connection.prepareStatement(
+                        "ALTER TABLE codex_players_discoveries ADD COLUMN MILLIS_ACTIONS_EXECUTED bigint");
+                alterStatement.executeUpdate();
+                alterStatement.close();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -153,7 +163,8 @@ public class MySQLConnection {
                                     "(SELECT GROUP_CONCAT(cc.Category) FROM codex_players_completed_categories cc WHERE cc.UUID = codex_players.UUID) AS COMPLETED_CATEGORIES, " +
                                     "codex_players_discoveries.CATEGORY AS DISCOVERY_CATEGORY, " +
                                     "codex_players_discoveries.DISCOVERY, " +
-                                    "codex_players_discoveries.DATE " +
+                                    "codex_players_discoveries.DATE, " +
+                                    "codex_players_discoveries.MILLIS_ACTIONS_EXECUTED " +
                                     "FROM codex_players " +
                                     "LEFT JOIN codex_players_discoveries ON codex_players.UUID = codex_players_discoveries.UUID " +
                                     "WHERE codex_players.UUID = ?");
@@ -168,6 +179,7 @@ public class MySQLConnection {
                         String discoveryCategoryName = result.getString("DISCOVERY_CATEGORY");
                         String discoveryName = result.getString("DISCOVERY");
                         String discoveryDate = result.getString("DATE");
+                        long discoveryMillisActionsExecuted = result.getLong("MILLIS_ACTIONS_EXECUTED");
 
                         if(player == null){
                             player = new PlayerData(uuid,playerName);
@@ -181,7 +193,7 @@ public class MySQLConnection {
                                 player.getCategories().add(playerDataCategory);
                             }
 
-                            playerDataCategory.getDiscoveries().add(new PlayerDataDiscovery(discoveryName,discoveryDate));
+                            playerDataCategory.getDiscoveries().add(new PlayerDataDiscovery(discoveryName,discoveryDate,discoveryMillisActionsExecuted));
                         }
                     }
 
@@ -245,12 +257,34 @@ public class MySQLConnection {
                     PreparedStatement statement = null;
                     statement = connection.prepareStatement(
                             "INSERT INTO codex_players_discoveries " +
-                                    "(UUID, CATEGORY, DISCOVERY, DATE) VALUE (?,?,?,?)");
+                                    "(UUID, CATEGORY, DISCOVERY, DATE, MILLIS_ACTIONS_EXECUTED) VALUE (?,?,?,?,?)");
 
                     statement.setString(1, uuid);
                     statement.setString(2, categoryName);
                     statement.setString(3, discoveryName);
                     statement.setString(4, discoveryDate);
+                    statement.setLong(5, 0);
+                    statement.executeUpdate();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.runTaskAsynchronously(plugin);
+    }
+
+    public void updateMillisActionsExecuted(String uuid, String categoryName, String discoveryName) {
+        new BukkitRunnable(){
+            @Override
+            public void run() {
+                try(Connection connection = getConnection()){
+                    PreparedStatement statement = connection.prepareStatement(
+                            "UPDATE codex_players_discoveries SET " +
+                                    "MILLIS_ACTIONS_EXECUTED=? WHERE UUID=? AND CATEGORY=? AND DISCOVERY=?");
+
+                    statement.setLong(1, System.currentTimeMillis());
+                    statement.setString(2, uuid);
+                    statement.setString(3, categoryName);
+                    statement.setString(4, discoveryName);
                     statement.executeUpdate();
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -348,5 +382,4 @@ public class MySQLConnection {
             }
         }.runTaskAsynchronously(plugin);
     }
-
 }

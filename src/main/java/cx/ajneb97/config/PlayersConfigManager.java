@@ -40,7 +40,11 @@ public class PlayersConfigManager extends DataFolderConfigManager {
                         ArrayList<PlayerDataDiscovery> discoveries = new ArrayList<>();
                         for(String d : discoveriesStringList){
                             String[] sep = d.split(";");
-                            discoveries.add(new PlayerDataDiscovery(sep[0],sep[1]));
+                            long millisActionsExecuted = 0;
+                            if(sep.length == 3){
+                                millisActionsExecuted = Long.parseLong(sep[2]);
+                            }
+                            discoveries.add(new PlayerDataDiscovery(sep[0],sep[1],millisActionsExecuted));
                         }
                         playerDataCategories.add(new PlayerDataCategory(key,completed,discoveries));
                     }

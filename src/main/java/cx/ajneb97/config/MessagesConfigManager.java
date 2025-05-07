@@ -26,6 +26,10 @@ public class MessagesConfigManager {
 
         MessagesManager messagesManager = new MessagesManager();
         messagesManager.setPrefix(config.getString("prefix"));
+        messagesManager.setTimeSeconds(config.getString("seconds"));
+        messagesManager.setTimeMinutes(config.getString("minutes"));
+        messagesManager.setTimeHours(config.getString("hours"));
+        messagesManager.setTimeDays(config.getString("days"));
 
         plugin.setMessagesManager(messagesManager);
     }
@@ -47,6 +51,15 @@ public class MessagesConfigManager {
         try{
             String text = new String(Files.readAllBytes(pathConfig));
             FileConfiguration config = configFile.getConfig();
+
+            if(!text.contains("clickActionsCooldown:")){
+                config.set("clickActionsCooldown","&cYou must wait &7%time% &cbefore using this item again.");
+                config.set("seconds","s");
+                config.set("minutes","m");
+                config.set("hours","h");
+                config.set("days","d");
+                configFile.saveConfig();
+            }
         }catch(IOException e){
             e.printStackTrace();
         }

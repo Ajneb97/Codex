@@ -88,3 +88,4 @@ discoveries:
           - "&7Hint: A very important city."
     click_actions:
       - "console_command: warp kryngel %player%"
+    click_actions_cooldown: 60

@@ -14,6 +14,7 @@ public class Discovery {
     private CommonItem customLevelBlockedItem;
     private List<String> customRewards;
     private List<String> clickActions;
+    private int clickActionsCooldown;
 
     public Discovery(String id, String categoryName) {
         this.id = id;
@@ -90,5 +91,13 @@ public class Discovery {
 
     public void setClickActions(List<String> clickActions) {
         this.clickActions = clickActions;
+    }
+
+    public int getClickActionsCooldown() {
+        return clickActionsCooldown;
+    }
+
+    public void setClickActionsCooldown(int clickActionsCooldown) {
+        this.clickActionsCooldown = clickActionsCooldown;
     }
 }

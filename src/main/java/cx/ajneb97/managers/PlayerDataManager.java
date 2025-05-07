@@ -202,6 +202,25 @@ public class PlayerDataManager {
         return playerData.isCategoryCompleted(categoryName);
     }
 
+    public void setMillisActionsExecuted(Player player,String categoryName,String discoveryName){
+        PlayerData playerData = getPlayer(player,true);
+        playerData.setModified(true);
+        playerData.setMillisActionsExecuted(categoryName,discoveryName);
+
+        if(plugin.getMySQLConnection() != null){
+            plugin.getMySQLConnection().updateMillisActionsExecuted(player.getUniqueId().toString(),categoryName,discoveryName);
+        }
+    }
+
+    public long getMillisActionsExecuted(Player player,String categoryName,String discoveryName){
+        PlayerData playerData = getPlayer(player,false);
+        if(playerData == null){
+            return 0;
+        }
+
+        return playerData.getMillisActionsExecuted(categoryName,discoveryName);
+    }
+
     public String resetDataPlayer(String playerName, String categoryName, String discoveryName, FileConfiguration messagesConfig){
         PlayerData playerData = getPlayerByName(playerName);
         if(!playerName.equals("*") && playerData == null){

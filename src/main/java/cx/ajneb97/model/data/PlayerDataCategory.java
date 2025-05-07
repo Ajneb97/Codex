@@ -55,6 +55,21 @@ public class PlayerDataCategory {
         return getDiscovery(discoveryName) != null;
     }
 
+    public void setMillisActionsExecuted(String discoveryName){
+        PlayerDataDiscovery d = getDiscovery(discoveryName);
+        if(d != null){
+            d.setMillisActionsExecuted(System.currentTimeMillis());
+        }
+    }
+
+    public long getMillisActionsExecuted(String discoveryName){
+        PlayerDataDiscovery d = getDiscovery(discoveryName);
+        if(d != null){
+            return d.getMillisActionsExecuted();
+        }
+        return 0;
+    }
+
     public void resetDiscovery(String discoveryName){
         discoveries.removeIf(d -> d.getDiscoveryName().equals(discoveryName));
     }
@@ -62,7 +77,7 @@ public class PlayerDataCategory {
     public List<String> getDiscoveriesToStringList(){
         List<String> list = new ArrayList<>();
         for(PlayerDataDiscovery d : discoveries){
-            list.add(d.getDiscoveryName()+";"+d.getDiscoverDate());
+            list.add(d.getDiscoveryName()+";"+d.getDiscoverDate()+";"+d.getMillisActionsExecuted());
         }
         return list;
     }

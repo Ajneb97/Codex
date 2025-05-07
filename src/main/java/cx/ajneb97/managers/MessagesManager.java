@@ -10,6 +10,10 @@ import java.util.regex.Pattern;
 public class MessagesManager {
 
 	private String prefix;
+	private String timeSeconds;
+	private String timeMinutes;
+	private String timeHours;
+	private String timeDays;
 
 	public String getPrefix() {
 		return prefix;
@@ -17,6 +21,38 @@ public class MessagesManager {
 
 	public void setPrefix(String prefix) {
 		this.prefix = prefix;
+	}
+
+	public String getTimeSeconds() {
+		return timeSeconds;
+	}
+
+	public void setTimeSeconds(String timeSeconds) {
+		this.timeSeconds = timeSeconds;
+	}
+
+	public String getTimeMinutes() {
+		return timeMinutes;
+	}
+
+	public void setTimeMinutes(String timeMinutes) {
+		this.timeMinutes = timeMinutes;
+	}
+
+	public String getTimeHours() {
+		return timeHours;
+	}
+
+	public void setTimeHours(String timeHours) {
+		this.timeHours = timeHours;
+	}
+
+	public String getTimeDays() {
+		return timeDays;
+	}
+
+	public void setTimeDays(String timeDays) {
+		this.timeDays = timeDays;
 	}
 
 	public void sendMessage(CommandSender sender, String message, boolean prefix){

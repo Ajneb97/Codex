@@ -66,7 +66,7 @@ public class PlayerData {
         }
 
         playerDataCategory.addDiscovery(new PlayerDataDiscovery(
-                discovery,date
+                discovery,date,0
         ));
     }
 
@@ -121,6 +121,24 @@ public class PlayerData {
         }
 
         return playerDataCategory.isCompleted();
+    }
+
+    public void setMillisActionsExecuted(String category,String discovery){
+        PlayerDataCategory playerDataCategory = getCategory(category);
+        if(playerDataCategory == null){
+            return;
+        }
+
+        playerDataCategory.setMillisActionsExecuted(discovery);
+    }
+
+    public long getMillisActionsExecuted(String category,String discovery){
+        PlayerDataCategory playerDataCategory = getCategory(category);
+        if(playerDataCategory == null){
+            return 0;
+        }
+
+        return playerDataCategory.getMillisActionsExecuted(discovery);
     }
 
     public void resetData(){

@@ -12,6 +12,7 @@ import cx.ajneb97.model.structure.Discovery;
 import cx.ajneb97.utils.ActionUtils;
 import cx.ajneb97.utils.ItemUtils;
 import cx.ajneb97.utils.OtherUtils;
+import cx.ajneb97.utils.TimeUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -151,6 +152,24 @@ public class InventoryManager {
 
         List<String> actions = discovery.getClickActions();
         if(actions != null){
+            int cooldown = discovery.getClickActionsCooldown();
+            if(cooldown != 0){
+                long millisActionsExecuted = playerDataManager.getMillisActionsExecuted(player,category.getName(),discoveryName);
+                long millisAvailable = millisActionsExecuted+(cooldown*1000L);
+                long currentMillis = System.currentTimeMillis();
+
+                if(millisActionsExecuted != 0 && millisAvailable > currentMillis){
+                    FileConfiguration messagesConfig = plugin.getMessagesConfig();
+                    MessagesManager msgManager = plugin.getMessagesManager();
+                    String timeString = TimeUtils.getTime((millisAvailable-currentMillis)/1000,msgManager);
+                    msgManager.sendMessage(player,messagesConfig.getString("clickActionsCooldown")
+                            .replace("%time%",timeString),true);
+                    return;
+                }
+
+                playerDataManager.setMillisActionsExecuted(player,category.getName(),discoveryName);
+            }
+
             for(String action : actions){
                 ActionUtils.executeAction(player,action,plugin,new ArrayList<>());
             }

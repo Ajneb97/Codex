@@ -82,12 +82,15 @@ public class CategoriesConfigManager extends DataFolderConfigManager {
                             clickActions = config.getStringList("discoveries."+key+".click_actions");
                         }
 
+                        int clickActionsCooldown = config.getInt("discoveries."+key+".click_actions_cooldown");
+
                         Discovery discovery = new Discovery(key,name);
                         discovery.setName(discoveryName);
                         discovery.setDescription(discoveryDescription);
                         discovery.setDiscoveredOn(discoveredOn);
                         discovery.setCustomRewards(rewards);
                         discovery.setClickActions(clickActions);
+                        discovery.setClickActionsCooldown(clickActionsCooldown);
                         discovery.setCustomLevelBlockedItem(customDiscoveryItemBlocked);
                         discovery.setCustomLevelUnlockedItem(customDiscoveryItemUnlocked);
                         discoveries.add(discovery);
