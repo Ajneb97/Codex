@@ -22,6 +22,12 @@ mysql_database:
   username: root
   password: root
   database: database
+  pool:
+    connectionTimeout: 5000
+  advanced:
+    verifyServerCertificate: false
+    useSSL: true
+    allowPublicKeyRetrieval: true
 
 # Don't modify.
 config_version: 2

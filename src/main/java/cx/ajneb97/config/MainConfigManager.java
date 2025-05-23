@@ -3,6 +3,11 @@ package cx.ajneb97.config;
 import cx.ajneb97.Codex;
 import org.bukkit.configuration.file.FileConfiguration;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 public class MainConfigManager {
 
     private Codex plugin;
@@ -21,6 +26,7 @@ public class MainConfigManager {
         this.plugin = plugin;
         this.configFile = new CommonConfig("config.yml",plugin,null,false);
         configFile.registerConfig();
+        checkUpdate();
     }
 
     public void configure() {
@@ -41,6 +47,22 @@ public class MainConfigManager {
         }
         configure();
         return true;
+    }
+
+    public void checkUpdate(){
+        Path pathConfig = Paths.get(configFile.getRoute());
+        try{
+            String text = new String(Files.readAllBytes(pathConfig));
+            if(!text.contains("verifyServerCertificate:")){
+                getConfig().set("mysql_database.pool.connectionTimeout",5000);
+                getConfig().set("mysql_database.advanced.verifyServerCertificate",false);
+                getConfig().set("mysql_database.advanced.useSSL",true);
+                getConfig().set("mysql_database.advanced.allowPublicKeyRetrieval",true);
+                configFile.saveConfig();
+            }
+        }catch(IOException e){
+            e.printStackTrace();
+        }
     }
 
     public CommonConfig getConfigFile() {
