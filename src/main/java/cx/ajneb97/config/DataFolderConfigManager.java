@@ -4,6 +4,7 @@ package cx.ajneb97.config;
 import cx.ajneb97.Codex;
 
 import java.io.File;
+import java.util.ArrayList;
 
 public abstract class DataFolderConfigManager {
 
@@ -37,6 +38,24 @@ public abstract class DataFolderConfigManager {
         CommonConfig config = new CommonConfig(pathName, plugin, folderName, true);
         config.registerConfig();
         return config;
+    }
+
+    public ArrayList<CommonConfig> getConfigs(){
+        ArrayList<CommonConfig> configs = new ArrayList<>();
+
+        String pathFile = plugin.getDataFolder() + File.separator + folderName;
+        File folder = new File(pathFile);
+        File[] listOfFiles = folder.listFiles();
+        for (File file : listOfFiles) {
+            if (file.isFile()) {
+                String pathName = file.getName();
+                CommonConfig commonConfig = new CommonConfig(pathName, plugin, folderName, true);
+                commonConfig.registerConfig();
+                configs.add(commonConfig);
+            }
+        }
+
+        return configs;
     }
 
     public abstract void createFiles();

@@ -20,44 +20,36 @@ public class PlayersConfigManager extends DataFolderConfigManager {
     public void loadConfigs(){
         Map<UUID, PlayerData> players = new HashMap<>();
 
-        String path = plugin.getDataFolder() + File.separator + folderName;
-        File folder = new File(path);
-        File[] listOfFiles = folder.listFiles();
-        for (File file : listOfFiles) {
-            if (file.isFile()) {
-                CommonConfig commonConfig = new CommonConfig(file.getName(), plugin, folderName, true);
-                commonConfig.registerConfig();
+        ArrayList<CommonConfig> configFiles = getConfigs();
+        for(CommonConfig commonConfig : configFiles){
+            FileConfiguration config = commonConfig.getConfig();
+            String uuidString = commonConfig.getPath().replace(".yml", "");
+            String name = config.getString("name");
+            ArrayList<PlayerDataCategory> playerDataCategories = new ArrayList<>();
+            if(config.contains("categories")){
+                for(String key : config.getConfigurationSection("categories").getKeys(false)){
+                    List<String> discoveriesStringList = config.getStringList("categories."+key+".discoveries");
+                    boolean completed = config.getBoolean("categories."+key+".completed");
 
-                FileConfiguration config = commonConfig.getConfig();
-                String uuidString = commonConfig.getPath().replace(".yml", "");
-                String name = config.getString("name");
-                ArrayList<PlayerDataCategory> playerDataCategories = new ArrayList<>();
-                if(config.contains("categories")){
-                    for(String key : config.getConfigurationSection("categories").getKeys(false)){
-                        List<String> discoveriesStringList = config.getStringList("categories."+key+".discoveries");
-                        boolean completed = config.getBoolean("categories."+key+".completed");
-
-                        ArrayList<PlayerDataDiscovery> discoveries = new ArrayList<>();
-                        for(String d : discoveriesStringList){
-                            String[] sep = d.split(";");
-                            long millisActionsExecuted = 0;
-                            if(sep.length == 3){
-                                millisActionsExecuted = Long.parseLong(sep[2]);
-                            }
-                            discoveries.add(new PlayerDataDiscovery(sep[0],sep[1],millisActionsExecuted));
+                    ArrayList<PlayerDataDiscovery> discoveries = new ArrayList<>();
+                    for(String d : discoveriesStringList){
+                        String[] sep = d.split(";");
+                        long millisActionsExecuted = 0;
+                        if(sep.length == 3){
+                            millisActionsExecuted = Long.parseLong(sep[2]);
                         }
-                        playerDataCategories.add(new PlayerDataCategory(key,completed,discoveries));
+                        discoveries.add(new PlayerDataDiscovery(sep[0],sep[1],millisActionsExecuted));
                     }
+                    playerDataCategories.add(new PlayerDataCategory(key,completed,discoveries));
                 }
-
-                UUID uuid = UUID.fromString(uuidString);
-                PlayerData playerData = new PlayerData(uuid,name);
-                playerData.setCategories(playerDataCategories);
-
-                players.put(uuid,playerData);
             }
-        }
 
+            UUID uuid = UUID.fromString(uuidString);
+            PlayerData playerData = new PlayerData(uuid,name);
+            playerData.setCategories(playerDataCategories);
+
+            players.put(uuid,playerData);
+        }
 
         plugin.getPlayerDataManager().setPlayers(players);
     }
