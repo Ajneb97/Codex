@@ -6,6 +6,8 @@ public class DiscoveredOn {
     private String mobType;
     private String mobName;
     private String regionName;
+    private String location;
+    private String range;
 
     public DiscoveredOn(DiscoveredOnType type) {
         this.type = type;
@@ -39,6 +41,17 @@ public class DiscoveredOn {
         return regionName;
     }
 
+    public String getLocation() {
+        return location;
+    }
+    public String getRange() {
+        return range;
+    }
+
+    public void setLocation(String location) { this.location = location; }
+
+    public void setRange(String range) { this.range = range; }
+
     public void setRegionName(String regionName) {
         this.regionName = regionName;
     }
@@ -47,6 +60,7 @@ public class DiscoveredOn {
         MOB_KILL,
         MYTHIC_MOB_KILL,
         ELITE_MOB_KILL,
-        WORLDGUARD_REGION
+        WORLDGUARD_REGION,
+        LOCATION
     }
 }

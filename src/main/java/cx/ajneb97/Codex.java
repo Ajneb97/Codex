@@ -6,6 +6,7 @@ import cx.ajneb97.commands.MainCommand;
 import cx.ajneb97.config.ConfigsManager;
 import cx.ajneb97.database.MySQLConnection;
 import cx.ajneb97.listeners.InventoryListener;
+import cx.ajneb97.listeners.MovementListener;
 import cx.ajneb97.listeners.PlayerListener;
 import cx.ajneb97.listeners.dependencies.EliteMobsListener;
 import cx.ajneb97.listeners.dependencies.MythicMobsListener;
@@ -43,10 +44,11 @@ public class Codex extends JavaPlugin {
     private PlayerDataSaveTask playerDataSaveTask;
     private UpdateCheckerManager updateCheckerManager;
     private VerifyManager verifyManager;
-
+    private MovementListener movementListener;
     public void onEnable(){
         setVersion();
         setPrefix();
+        this.movementListener = new MovementListener(this);
         this.playerDataManager = new PlayerDataManager(this);
         this.inventoryManager = new InventoryManager(this);
         this.commonItemManager = new CommonItemManager(this);
@@ -90,6 +92,7 @@ public class Codex extends JavaPlugin {
     }
 
     public void onDisable(){
+        movementListener.unregister();
         configsManager.getPlayersConfigManager().saveConfigs();
 
         Bukkit.getConsoleSender().sendMessage(prefix+MessagesManager.getColoredMessage("&eHas been disabled! &fVersion: "+version));
@@ -100,6 +103,7 @@ public class Codex extends JavaPlugin {
 
     public void registerEvents(){
         PluginManager pm = getServer().getPluginManager();
+        movementListener.register();
         pm.registerEvents(new InventoryListener(this), this);
         pm.registerEvents(new PlayerListener(this), this);
         if(dependencyManager.getWorldGuardManager() != null){
