@@ -2,7 +2,9 @@ main: cx.ajneb97.Codex
 version: ${project.version}
 name: Codex
 api-version: 1.13
-author: Ajneb97
+author:
+  - Ajneb97
+  - MikkoAyaka
 softdepend: [WorldGuard,WorldEdit,PlaceholderAPI,MythicMobs]
 
 commands:

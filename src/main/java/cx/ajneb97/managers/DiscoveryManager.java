@@ -8,6 +8,9 @@ import cx.ajneb97.model.structure.Category;
 import cx.ajneb97.model.structure.DiscoveredOn;
 import cx.ajneb97.model.structure.Discovery;
 import cx.ajneb97.utils.ActionUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -111,6 +114,23 @@ public class DiscoveryManager {
                 continue;
             }
 
+            onDiscover(player,discovery.getCategoryName(),discovery.getId());
+
+            return;
+        }
+    }
+
+    public void onLocationNear(Player player, Location location){
+        ArrayList<Discovery> discoveries = getPossibleDiscoveries(DiscoveredOn.DiscoveredOnType.LOCATION);
+        for(Discovery discovery : discoveries){
+            DiscoveredOn discoveredOn = discovery.getDiscoveredOn();
+            List<String> locArgs = List.of(discoveredOn.getLocation().split(","));
+            World world = Bukkit.getWorld(locArgs.get(0));
+            if(world != location.getWorld()) continue;
+            Location discoveredLoc = new Location(world,Integer.parseInt(locArgs.get(1)),Integer.parseInt(locArgs.get(2)),Integer.parseInt(locArgs.get(3)));
+            if(discoveredLoc.distance(location) > Integer.parseInt(discoveredOn.getRange())) {
+                continue;
+            }
             onDiscover(player,discovery.getCategoryName(),discovery.getId());
 
             return;

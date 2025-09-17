@@ -55,6 +55,8 @@ public class CategoriesConfigManager extends DataFolderConfigManager {
                         discoveredOn.setMobName(config.getString(pathValue+".mob_name"));
                         discoveredOn.setMobType(config.getString(pathValue+".mob_type"));
                         discoveredOn.setRegionName(config.getString(pathValue+".region_name"));
+                        discoveredOn.setLocation(config.getString(pathValue+".location"));
+                        discoveredOn.setRange(config.getString(pathValue+".range"));
                     }
 
                     CommonItem customDiscoveryItemUnlocked = null;
