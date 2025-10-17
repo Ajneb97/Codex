@@ -45,6 +45,11 @@
             <name>MagmaGuy's Repository</name>
             <url>https://repo.magmaguy.com/releases</url>
         </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <name>jitpack</name>
+            <url>https://jitpack.io</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -94,6 +99,12 @@
             <groupId>com.magmaguy</groupId>
             <artifactId>EliteMobs</artifactId>
             <version>9.2.3</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.Zrips</groupId>
+            <artifactId>Residence</artifactId>
+            <version>6.0.0.1</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

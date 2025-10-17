@@ -12,6 +12,7 @@ public class DependencyManager {
     private boolean isPaper;
     private boolean isMythicMobs;
     private boolean isEliteMobs;
+    private boolean isResidence;
     private WorldGuardManager worldGuardManager;
 
     public DependencyManager(Codex plugin){
@@ -28,6 +29,9 @@ public class DependencyManager {
         }
         if(Bukkit.getServer().getPluginManager().getPlugin("EliteMobs") != null){
             isEliteMobs = true;
+        }
+        if(Bukkit.getServer().getPluginManager().getPlugin("Residence") != null){
+            isResidence = true;
         }
         try{
             Class.forName("com.destroystokyo.paper.ParticleBuilder");
@@ -55,5 +59,9 @@ public class DependencyManager {
 
     public boolean isEliteMobs() {
         return isEliteMobs;
+    }
+
+    public boolean isResidence() {
+        return isResidence;
     }
 }

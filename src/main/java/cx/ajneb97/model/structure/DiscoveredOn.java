@@ -47,6 +47,7 @@ public class DiscoveredOn {
         MOB_KILL,
         MYTHIC_MOB_KILL,
         ELITE_MOB_KILL,
-        WORLDGUARD_REGION
+        WORLDGUARD_REGION,
+        RESIDENCE_REGION
     }
 }

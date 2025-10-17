@@ -9,6 +9,7 @@ import cx.ajneb97.listeners.InventoryListener;
 import cx.ajneb97.listeners.PlayerListener;
 import cx.ajneb97.listeners.dependencies.EliteMobsListener;
 import cx.ajneb97.listeners.dependencies.MythicMobsListener;
+import cx.ajneb97.listeners.dependencies.ResidenceListener;
 import cx.ajneb97.listeners.dependencies.WorldGuardListener;
 import cx.ajneb97.managers.*;
 import cx.ajneb97.managers.dependencies.DependencyManager;
@@ -111,6 +112,10 @@ public class Codex extends JavaPlugin {
 
         if(dependencyManager.isEliteMobs()){
             pm.registerEvents(new EliteMobsListener(this), this);
+        }
+
+        if(dependencyManager.isResidence()){
+            pm.registerEvents(new ResidenceListener(this), this);
         }
 
     }
