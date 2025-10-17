@@ -1,5 +1,6 @@
 package cx.ajneb97.managers;
 
+import com.bekvon.bukkit.residence.event.ResidenceChangedEvent;
 import cx.ajneb97.Codex;
 import cx.ajneb97.model.data.PlayerDataCategory;
 import cx.ajneb97.model.data.PlayerDataDiscovery;
@@ -9,6 +10,7 @@ import cx.ajneb97.model.structure.DiscoveredOn;
 import cx.ajneb97.model.structure.Discovery;
 import cx.ajneb97.utils.ActionUtils;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 
 import java.util.*;
 
@@ -104,6 +106,21 @@ public class DiscoveryManager {
 
     public void onWorldGuardRegionEnter(Player player, String regionName){
         ArrayList<Discovery> discoveries = getPossibleDiscoveries(DiscoveredOn.DiscoveredOnType.WORLDGUARD_REGION);
+        for(Discovery discovery : discoveries){
+            DiscoveredOn discoveredOn = discovery.getDiscoveredOn();
+            String discoveryRegionName = discoveredOn.getRegionName();
+            if(discoveryRegionName != null && !discoveryRegionName.equals(regionName)){
+                continue;
+            }
+
+            onDiscover(player,discovery.getCategoryName(),discovery.getId());
+
+            return;
+        }
+    }
+
+    public void onResidenceRegionEnter(Player player, String regionName){
+        ArrayList<Discovery> discoveries = getPossibleDiscoveries(DiscoveredOn.DiscoveredOnType.RESIDENCE_REGION);
         for(Discovery discovery : discoveries){
             DiscoveredOn discoveredOn = discovery.getDiscoveredOn();
             String discoveryRegionName = discoveredOn.getRegionName();
