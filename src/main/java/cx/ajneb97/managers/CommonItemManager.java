@@ -6,6 +6,11 @@ import cx.ajneb97.model.item.*;
 import cx.ajneb97.utils.ItemUtils;
 import cx.ajneb97.utils.OtherUtils;
 import cx.ajneb97.utils.ServerVersion;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextReplacementConfig;
+import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Color;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -40,15 +45,26 @@ public class CommonItemManager {
         }
 
         ServerVersion serverVersion = Codex.serverVersion;
+        boolean isPaper = plugin.getDependencyManager().isPaper();
         if(item.hasItemMeta()) {
             ItemMeta meta = item.getItemMeta();
             if(meta.hasDisplayName()) {
-                commonItem.setName(meta.getDisplayName().replace("§", "&"));
+                if(isPaper && serverVersion.serverVersionGreaterEqualThan(serverVersion,ServerVersion.v1_19_R1)){
+                    commonItem.setName(LegacyComponentSerializer.legacyAmpersand().serialize(meta.displayName()));
+                }else{
+                    commonItem.setName(meta.getDisplayName().replace("§", "&"));
+                }
             }
             if(meta.hasLore()) {
-                List<String> lore = new ArrayList<String>();
-                for(String l : meta.getLore()) {
-                    lore.add(l.replace("§", "&"));
+                List<String> lore = new ArrayList<>();
+                if(isPaper && serverVersion.serverVersionGreaterEqualThan(serverVersion,ServerVersion.v1_19_R1)){
+                    for (Component line : meta.lore()) {
+                        lore.add(LegacyComponentSerializer.legacyAmpersand().serialize(line));
+                    }
+                }else{
+                    for(String l : meta.getLore()) {
+                        lore.add(l.replace("§", "&"));
+                    }
                 }
                 commonItem.setLore(lore);
             }
@@ -168,22 +184,37 @@ public class CommonItemManager {
             item.setDurability(durability);
         }
 
+        boolean useMiniMessage = plugin.getConfigsManager().getMainConfigManager().isUseMiniMessage();
+
         //MAIN META
         ItemMeta meta = item.getItemMeta();
         String name = commonItem.getName();
         if(name != null){
             name = OtherUtils.replaceGlobalVariables(name,player,plugin);
-            meta.setDisplayName(MessagesManager.getColoredMessage(name));
+            if(useMiniMessage){
+                meta.displayName(MiniMessage.miniMessage().deserialize(name).decoration(TextDecoration.ITALIC, false));
+            }else{
+                meta.setDisplayName(MessagesManager.getLegacyColoredMessage(name));
+            }
         }
 
         List<String> lore = commonItem.getLore();
         if(lore != null) {
-            List<String> loreCopy = new ArrayList<String>(lore);
-            for(int i=0;i<loreCopy.size();i++) {
-                String line = OtherUtils.replaceGlobalVariables(loreCopy.get(i),player,plugin);
-                loreCopy.set(i, MessagesManager.getColoredMessage(line));
+            List<String> loreCopy = new ArrayList<>(lore);
+            if(useMiniMessage){
+                List<Component> loreComponent = new ArrayList<>();
+                for(int i=0;i<loreCopy.size();i++) {
+                    String line = OtherUtils.replaceGlobalVariables(loreCopy.get(i),player,plugin);
+                    loreComponent.add(MiniMessage.miniMessage().deserialize(line).decoration(TextDecoration.ITALIC, false));
+                }
+                meta.lore(loreComponent);
+            }else{
+                for(int i=0;i<loreCopy.size();i++) {
+                    String line = OtherUtils.replaceGlobalVariables(loreCopy.get(i),player,plugin);
+                    loreCopy.set(i, MessagesManager.getLegacyColoredMessage(line));
+                }
+                meta.setLore(loreCopy);
             }
-            meta.setLore(loreCopy);
         }
 
         int customModelData = commonItem.getCustomModelData();
@@ -586,26 +617,58 @@ public class CommonItemManager {
     }
 
     public void replaceVariables(ItemStack item, ArrayList<CommonVariable> variables, Player player){
+        boolean useMiniMessage = plugin.getConfigsManager().getMainConfigManager().isUseMiniMessage();
         if(item.hasItemMeta()){
             ItemMeta meta = item.getItemMeta();
             if(meta.hasDisplayName()){
-                String newName = meta.getDisplayName();
-                for(CommonVariable variable : variables){
-                    newName = newName.replace(variable.getVariable(),variable.getValue());
-                }
-                newName = OtherUtils.replaceGlobalVariables(newName,player,plugin);
-                meta.setDisplayName(newName);
-            }
-            if(meta.hasLore()){
-                List<String> lore = meta.getLore();
-                for(int i=0;i<lore.size();i++){
+                if(useMiniMessage){
+                    Component name = meta.displayName();
+                    Component newName = name;
                     for(CommonVariable variable : variables){
-                        String line = lore.get(i).replace(variable.getVariable(),variable.getValue());
-                        line = OtherUtils.replaceGlobalVariables(line,player,plugin);
-                        lore.set(i,line);
+                        String finalValue = OtherUtils.replaceGlobalVariables(variable.getValue(),player,plugin);
+                        newName = newName.replaceText(TextReplacementConfig.builder()
+                                .matchLiteral(variable.getVariable())
+                                .replacement(MiniMessage.miniMessage().deserialize(finalValue))
+                                .build());
                     }
+                    meta.displayName(newName);
+                }else{
+                    String newName = meta.getDisplayName();
+                    for(CommonVariable variable : variables){
+                        newName = newName.replace(variable.getVariable(),variable.getValue());
+                    }
+                    newName = OtherUtils.replaceGlobalVariables(newName,player,plugin);
+                    meta.setDisplayName(MessagesManager.getLegacyColoredMessage(newName));
                 }
-                meta.setLore(lore);
+            }
+
+            if(meta.hasLore()){
+                if(useMiniMessage){
+                    List<Component> lore = meta.lore();
+                    List<Component> newLore = new ArrayList<>();
+                    for(Component c : lore){
+                        Component newComponent = c;
+                        for(CommonVariable variable : variables){
+                            String finalValue = OtherUtils.replaceGlobalVariables(variable.getValue(),player,plugin);
+                            newComponent = newComponent.replaceText(TextReplacementConfig.builder()
+                                    .matchLiteral(variable.getVariable())
+                                    .replacement(MiniMessage.miniMessage().deserialize(finalValue))
+                                    .build());
+                        }
+                        newLore.add(newComponent);
+                    }
+                    meta.lore(newLore);
+                }else{
+                    List<String> lore = meta.getLore();
+                    for(int i=0;i<lore.size();i++){
+                        for(CommonVariable variable : variables){
+                            String line = lore.get(i).replace(variable.getVariable(),variable.getValue());
+                            line = OtherUtils.replaceGlobalVariables(line,player,plugin);
+                            lore.set(i,MessagesManager.getLegacyColoredMessage(line));
+                        }
+                    }
+                    meta.setLore(lore);
+                }
             }
             item.setItemMeta(meta);
         }

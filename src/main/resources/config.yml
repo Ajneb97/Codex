@@ -14,6 +14,10 @@ progress_bar_placeholder:
   empty_symbol: "&c|"
   amount: 20
 
+# Defines if every message/text in the plugin should use the MiniMessage format.
+# Only works on Paper 1.19.4+.
+use_minimessage: true
+
 # MySQL support credentials.
 mysql_database:
   enabled: false

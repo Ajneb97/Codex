@@ -31,9 +31,9 @@ public class MySQLConnection {
             connection.getHikari().getConnection();
             createTables();
             loadData();
-            Bukkit.getConsoleSender().sendMessage(MessagesManager.getColoredMessage(plugin.prefix+"&aSuccessfully connected to the Database."));
+            Bukkit.getConsoleSender().sendMessage(MessagesManager.getLegacyColoredMessage(plugin.prefix+"&aSuccessfully connected to the Database."));
         }catch(Exception e) {
-            Bukkit.getConsoleSender().sendMessage(MessagesManager.getColoredMessage(plugin.prefix+"&cError while connecting to the Database."));
+            Bukkit.getConsoleSender().sendMessage(MessagesManager.getLegacyColoredMessage(plugin.prefix+"&cError while connecting to the Database."));
         }
     }
 

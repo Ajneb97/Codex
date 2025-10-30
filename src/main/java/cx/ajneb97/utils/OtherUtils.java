@@ -2,16 +2,12 @@ package cx.ajneb97.utils;
 
 import cx.ajneb97.Codex;
 import cx.ajneb97.config.MainConfigManager;
-import cx.ajneb97.managers.MessagesManager;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class OtherUtils {
     public static boolean isNew() {
@@ -77,7 +73,7 @@ public class OtherUtils {
             remaining.append(emptySymbol);
         }
 
-        return MessagesManager.getColoredMessage(completed.toString() + remaining.toString());
+        return completed.toString() + remaining.toString();
     }
 
     public static String getCurrentUnlockedVariable(int value, int max, FileConfiguration messagesConfig){
