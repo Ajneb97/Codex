@@ -16,7 +16,7 @@ progress_bar_placeholder:
 
 # Defines if every message/text in the plugin should use the MiniMessage format.
 # Only works on Paper 1.19.4+.
-use_minimessage: true
+use_minimessage: false
 
 # MySQL support credentials.
 mysql_database:
