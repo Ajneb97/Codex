@@ -117,6 +117,21 @@ public class DiscoveryManager {
         }
     }
 
+    public void onResidenceRegionEnter(Player player, String regionName){
+        ArrayList<Discovery> discoveries = getPossibleDiscoveries(DiscoveredOn.DiscoveredOnType.RESIDENCE_REGION);
+        for(Discovery discovery : discoveries){
+            DiscoveredOn discoveredOn = discovery.getDiscoveredOn();
+            String discoveryRegionName = discoveredOn.getRegionName();
+            if(discoveryRegionName != null && !discoveryRegionName.equals(regionName)){
+                continue;
+            }
+
+            onDiscover(player,discovery.getCategoryName(),discovery.getId());
+
+            return;
+        }
+    }
+
     public boolean onDiscover(Player player,String categoryName,String discoveryName){
         Category category = plugin.getCategoryManager().getCategory(categoryName);
         Discovery discovery = category.getDiscovery(discoveryName);
