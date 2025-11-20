@@ -3,7 +3,6 @@ package cx.ajneb97.listeners.dependencies;
 import com.bekvon.bukkit.residence.Residence;
 import com.bekvon.bukkit.residence.protection.ClaimedResidence;
 import cx.ajneb97.Codex;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,7 +17,7 @@ import java.util.UUID;
 public class ResidenceListener implements Listener {
 
     private Codex plugin;
-    // 追踪每个玩家当前所在的领地
+    // Track each player's current residence
     private final HashMap<UUID, String> playerRegions = new HashMap<>();
 
     public ResidenceListener(Codex plugin){
@@ -46,19 +45,19 @@ public class ResidenceListener implements Listener {
         Player player = event.getPlayer();
         UUID playerUUID = player.getUniqueId();
 
-        // 获取目标位置的领地
+        // Acquire residence at the target location
         ClaimedResidence toResidence = residence.getResidenceManager().getByLoc(to);
         String toRegionName = toResidence != null ? toResidence.getName() : null;
 
-        // 获取玩家之前所在的领地
+        // Acquire the player's previous residence
         String fromRegionName = playerRegions.get(playerUUID);
 
-        // 检查领地是否发生变化
+        // Check if the residence has changed
         if (hasRegionChanged(fromRegionName, toRegionName)) {
-            // 更新玩家当前领地
+            // Update player's current residence
             if (toRegionName != null) {
                 playerRegions.put(playerUUID, toRegionName);
-                // 玩家进入了新领地
+                // Player enters a new residence
                 plugin.getDiscoveryManager().onResidenceRegionEnter(player, toRegionName);
             } else {
                 playerRegions.remove(playerUUID);
@@ -68,12 +67,12 @@ public class ResidenceListener implements Listener {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        // 清理玩家数据
+        // Clean player data
         playerRegions.remove(event.getPlayer().getUniqueId());
     }
 
     /**
-     * 检查领地是否发生变化
+     * Check if the residence has changed.
      */
     private boolean hasRegionChanged(String from, String to) {
         if (from == null && to == null) return false;

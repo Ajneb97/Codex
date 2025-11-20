@@ -1,6 +1,5 @@
 package cx.ajneb97.managers;
 
-import com.bekvon.bukkit.residence.event.ResidenceChangedEvent;
 import cx.ajneb97.Codex;
 import cx.ajneb97.model.data.PlayerDataCategory;
 import cx.ajneb97.model.data.PlayerDataDiscovery;
@@ -10,7 +9,6 @@ import cx.ajneb97.model.structure.DiscoveredOn;
 import cx.ajneb97.model.structure.Discovery;
 import cx.ajneb97.utils.ActionUtils;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 
 import java.util.*;
 
