@@ -115,34 +115,34 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 		}
 
 		if(page == 1) {
-			sender.sendMessage(MessagesManager.getColoredMessage("&f&l- - - - - &6&lCODEX COMMANDS &8(&e1&8/&e2&8) &f&l- - - - -"));
-			sender.sendMessage(MessagesManager.getColoredMessage(""));
-			sender.sendMessage(MessagesManager.getColoredMessage("&7Opens the main menu."));
-			sender.sendMessage(MessagesManager.getColoredMessage("&b/codex"));
-			sender.sendMessage(MessagesManager.getColoredMessage(""));
-			sender.sendMessage(MessagesManager.getColoredMessage("&7Shows this message."));
-			sender.sendMessage(MessagesManager.getColoredMessage("&b/codex help"));
-			sender.sendMessage(MessagesManager.getColoredMessage(""));
-			sender.sendMessage(MessagesManager.getColoredMessage("&7Unlocks a discovery for a player."));
-			sender.sendMessage(MessagesManager.getColoredMessage("&b/codex unlock <player> <category> <discovery> (optional, send message)<true/false>"));
-			sender.sendMessage(MessagesManager.getColoredMessage(""));
-			sender.sendMessage(MessagesManager.getColoredMessage("&7Resets a player discovery."));
-			sender.sendMessage(MessagesManager.getColoredMessage("&b/codex resetplayer <player>/* (optional)<category> (optional)<discovery>"));
-			sender.sendMessage(MessagesManager.getColoredMessage(""));
-			sender.sendMessage(MessagesManager.getColoredMessage("&7Reloads the config"));
-			sender.sendMessage(MessagesManager.getColoredMessage("&b/codex reload"));
-			sender.sendMessage(MessagesManager.getColoredMessage(""));
-			sender.sendMessage(MessagesManager.getColoredMessage("&f&l- - - - - &6&lCODEX COMMANDS &8(&e1&8/&e2&8) &f&l- - - - -"));
+			sender.sendMessage(MessagesManager.getLegacyColoredMessage("&f&l- - - - - &6&lCODEX COMMANDS &8(&e1&8/&e2&8) &f&l- - - - -"));
+			sender.sendMessage(MessagesManager.getLegacyColoredMessage(""));
+			sender.sendMessage(MessagesManager.getLegacyColoredMessage("&7Opens the main menu."));
+			sender.sendMessage(MessagesManager.getLegacyColoredMessage("&b/codex"));
+			sender.sendMessage(MessagesManager.getLegacyColoredMessage(""));
+			sender.sendMessage(MessagesManager.getLegacyColoredMessage("&7Shows this message."));
+			sender.sendMessage(MessagesManager.getLegacyColoredMessage("&b/codex help"));
+			sender.sendMessage(MessagesManager.getLegacyColoredMessage(""));
+			sender.sendMessage(MessagesManager.getLegacyColoredMessage("&7Unlocks a discovery for a player."));
+			sender.sendMessage(MessagesManager.getLegacyColoredMessage("&b/codex unlock <player> <category> <discovery> (optional, send message)<true/false>"));
+			sender.sendMessage(MessagesManager.getLegacyColoredMessage(""));
+			sender.sendMessage(MessagesManager.getLegacyColoredMessage("&7Resets a player discovery."));
+			sender.sendMessage(MessagesManager.getLegacyColoredMessage("&b/codex resetplayer <player>/* (optional)<category> (optional)<discovery>"));
+			sender.sendMessage(MessagesManager.getLegacyColoredMessage(""));
+			sender.sendMessage(MessagesManager.getLegacyColoredMessage("&7Reloads the config"));
+			sender.sendMessage(MessagesManager.getLegacyColoredMessage("&b/codex reload"));
+			sender.sendMessage(MessagesManager.getLegacyColoredMessage(""));
+			sender.sendMessage(MessagesManager.getLegacyColoredMessage("&f&l- - - - - &6&lCODEX COMMANDS &8(&e1&8/&e2&8) &f&l- - - - -"));
 		}else if(page == 2) {
-			sender.sendMessage(MessagesManager.getColoredMessage("&f&l- - - - - &6&lCODEX COMMANDS &8(&e2&8/&e2&8) &f&l- - - - -"));
-			sender.sendMessage(MessagesManager.getColoredMessage(""));
-			sender.sendMessage(MessagesManager.getColoredMessage("&7Opens an inventory for the player."));
-			sender.sendMessage(MessagesManager.getColoredMessage("&b/codex open <player> <inventory>"));
-			sender.sendMessage(MessagesManager.getColoredMessage(""));
-			sender.sendMessage(MessagesManager.getColoredMessage("&7Checks the plugin for errors."));
-			sender.sendMessage(MessagesManager.getColoredMessage("&b/codex verify"));
-			sender.sendMessage(MessagesManager.getColoredMessage(""));
-			sender.sendMessage(MessagesManager.getColoredMessage("&f&l- - - - - &6&lCODEX COMMANDS &8(&e2&8/&e2&8) &f&l- - - - -"));
+			sender.sendMessage(MessagesManager.getLegacyColoredMessage("&f&l- - - - - &6&lCODEX COMMANDS &8(&e2&8/&e2&8) &f&l- - - - -"));
+			sender.sendMessage(MessagesManager.getLegacyColoredMessage(""));
+			sender.sendMessage(MessagesManager.getLegacyColoredMessage("&7Opens an inventory for the player."));
+			sender.sendMessage(MessagesManager.getLegacyColoredMessage("&b/codex open <player> <inventory>"));
+			sender.sendMessage(MessagesManager.getLegacyColoredMessage(""));
+			sender.sendMessage(MessagesManager.getLegacyColoredMessage("&7Checks the plugin for errors."));
+			sender.sendMessage(MessagesManager.getLegacyColoredMessage("&b/codex verify"));
+			sender.sendMessage(MessagesManager.getLegacyColoredMessage(""));
+			sender.sendMessage(MessagesManager.getLegacyColoredMessage("&f&l- - - - - &6&lCODEX COMMANDS &8(&e2&8/&e2&8) &f&l- - - - -"));
 		}else {
 			msgManager.sendMessage(sender,messagesConfig.getString("commandHelpNoValidPage"),true);
 		}
@@ -155,7 +155,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 		}
 
 		if(!plugin.getConfigsManager().reload()){
-			sender.sendMessage(Codex.prefix+MessagesManager.getColoredMessage("&cThere was an error reloading the config, check the console."));
+			sender.sendMessage(Codex.prefix+MessagesManager.getLegacyColoredMessage("&cThere was an error reloading the config, check the console."));
 			return;
 		}
 		msgManager.sendMessage(sender,messagesConfig.getString("configReloaded"),true);

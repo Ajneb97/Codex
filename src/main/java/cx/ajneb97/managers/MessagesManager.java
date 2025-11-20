@@ -1,7 +1,9 @@
 package cx.ajneb97.managers;
 
+import cx.ajneb97.api.CodexAPI;
 import cx.ajneb97.libs.centeredmessage.DefaultFontInfo;
 import cx.ajneb97.utils.OtherUtils;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.CommandSender;
 import java.util.regex.Matcher;
@@ -14,7 +16,6 @@ public class MessagesManager {
 	private String timeMinutes;
 	private String timeHours;
 	private String timeDays;
-
 	public String getPrefix() {
 		return prefix;
 	}
@@ -57,15 +58,23 @@ public class MessagesManager {
 
 	public void sendMessage(CommandSender sender, String message, boolean prefix){
 		if(!message.isEmpty()){
-			if(prefix){
-				sender.sendMessage(getColoredMessage(this.prefix+message));
+			if(CodexAPI.getPlugin().getConfigsManager().getMainConfigManager().isUseMiniMessage()){
+				if(prefix){
+					sender.sendMessage(MiniMessage.miniMessage().deserialize(this.prefix+message));
+				}else{
+					sender.sendMessage(MiniMessage.miniMessage().deserialize(message));
+				}
 			}else{
-				sender.sendMessage(getColoredMessage(message));
+				if(prefix){
+					sender.sendMessage(getLegacyColoredMessage(this.prefix+message));
+				}else{
+					sender.sendMessage(getLegacyColoredMessage(message));
+				}
 			}
 		}
 	}
 
-	public static String getColoredMessage(String message) {
+	public static String getLegacyColoredMessage(String message) {
 		if(OtherUtils.isNew()) {
 			Pattern pattern = Pattern.compile("#[a-fA-F0-9]{6}");
 			Matcher match = pattern.matcher(message);
@@ -81,6 +90,7 @@ public class MessagesManager {
 		message = ChatColor.translateAlternateColorCodes('&', message);
 		return message;
 	}
+
 
 	public static String getCenteredMessage(String message){
 		int CENTER_PX = 154;

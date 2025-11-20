@@ -50,7 +50,7 @@ public class JSONMessage {
 	
 	public void send() {
 		TextComponent message = new TextComponent();
-		message.setText(MessagesManager.getColoredMessage(text));
+		message.setText(MessagesManager.getLegacyColoredMessage(text));
 		if(hover != null) {
 			message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hover));
 		}

@@ -1,9 +1,13 @@
 package cx.ajneb97.utils;
 
 import cx.ajneb97.Codex;
+import cx.ajneb97.api.CodexAPI;
 import cx.ajneb97.libs.titles.TitleAPI;
 import cx.ajneb97.managers.MessagesManager;
 import cx.ajneb97.model.internal.CommonVariable;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.command.ConsoleCommandSender;
@@ -61,8 +65,7 @@ public class ActionUtils {
             volume = Float.parseFloat(sep[1]);
             pitch = Float.parseFloat(sep[2]);
         }catch(Exception e ) {
-            Bukkit.getConsoleSender().sendMessage(Codex.prefix+
-                    MessagesManager.getColoredMessage("&7Sound Name: &c"+sep[0]+" &7is not valid. Change it in the config!"));
+            Bukkit.getConsoleSender().sendMessage(Codex.prefix+MessagesManager.getLegacyColoredMessage("&7Sound Name: &c"+sep[0]+" &7is not valid. Change it in the config!"));
             return;
         }
 
@@ -89,12 +92,24 @@ public class ActionUtils {
     }
 
     public static void message(Player player,String actionLine){
-        player.sendMessage(MessagesManager.getColoredMessage(actionLine));
+        if(CodexAPI.getPlugin().getConfigsManager().getMainConfigManager().isUseMiniMessage()){
+            player.sendMessage(MiniMessage.miniMessage().deserialize(actionLine));
+        }else{
+            player.sendMessage(MessagesManager.getLegacyColoredMessage(actionLine));
+        }
     }
 
     public static void centeredMessage(Player player,String actionLine){
-        actionLine = MessagesManager.getColoredMessage(actionLine);
-        player.sendMessage(MessagesManager.getCenteredMessage(actionLine));
+        if(CodexAPI.getPlugin().getConfigsManager().getMainConfigManager().isUseMiniMessage()){
+            MiniMessage mm = MiniMessage.miniMessage();
+            Component component = mm.deserialize(actionLine);
+            String centeredTextLegacy = MessagesManager.getCenteredMessage(LegacyComponentSerializer.legacySection().serialize(component)); // to legacy
+            Component centeredTextMiniMessage = LegacyComponentSerializer.legacySection().deserialize(centeredTextLegacy); // to minimessage
+            player.sendMessage(centeredTextMiniMessage);
+        }else{
+            actionLine = MessagesManager.getLegacyColoredMessage(actionLine);
+            player.sendMessage(MessagesManager.getCenteredMessage(actionLine));
+        }
     }
 
     public static void title(Player player,String actionLine){

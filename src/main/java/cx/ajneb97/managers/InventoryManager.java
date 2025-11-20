@@ -1,6 +1,7 @@
 package cx.ajneb97.managers;
 
 import cx.ajneb97.Codex;
+import cx.ajneb97.config.MainConfigManager;
 import cx.ajneb97.model.data.PlayerDataDiscovery;
 import cx.ajneb97.model.internal.CommonVariable;
 import cx.ajneb97.model.inventory.CommonInventory;
@@ -13,6 +14,11 @@ import cx.ajneb97.utils.ActionUtils;
 import cx.ajneb97.utils.ItemUtils;
 import cx.ajneb97.utils.OtherUtils;
 import cx.ajneb97.utils.TimeUtils;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -72,9 +78,15 @@ public class InventoryManager {
 
     public void openInventory(InventoryPlayer inventoryPlayer){
         CommonInventory inventory = getInventory(inventoryPlayer.getInventoryName());
+        MainConfigManager mainConfigManager = plugin.getConfigsManager().getMainConfigManager();
 
         String title = inventory.getTitle();
-        Inventory inv = Bukkit.createInventory(null,inventory.getSlots(), MessagesManager.getColoredMessage(title));
+        Inventory inv;
+        if(mainConfigManager.isUseMiniMessage()){
+            inv = Bukkit.createInventory(null,inventory.getSlots(), MiniMessage.miniMessage().deserialize(title));
+        }else{
+            inv = Bukkit.createInventory(null,inventory.getSlots(), MessagesManager.getLegacyColoredMessage(title));
+        }
 
         List<CommonInventoryItem> items = inventory.getItems();
         CommonItemManager commonItemManager = plugin.getCommonItemManager();
@@ -242,7 +254,7 @@ public class InventoryManager {
         commonItem = category.getCategoryItem();
         variables.add(new CommonVariable("%progress_bar%", OtherUtils.getProgressBar(totalDiscoveries,max,plugin.getConfigsManager().getMainConfigManager())));
         variables.add(new CommonVariable("%percentage%", OtherUtils.getPercentage(totalDiscoveries,max)+"%"));
-        variables.add(new CommonVariable("%unlocked%", MessagesManager.getColoredMessage(unlockedVariable)));
+        variables.add(new CommonVariable("%unlocked%", unlockedVariable));
 
         ItemStack item = commonItemManager.createItemFromCommonItem(commonItem,player);
         commonItemManager.replaceVariables(item,variables,player);
@@ -281,8 +293,8 @@ public class InventoryManager {
             }else{
                 item = commonItemManager.createItemFromCommonItem(category.getDefaultLevelUnlockedItem(),player);
             }
-            variables.add(new CommonVariable("%name%",MessagesManager.getColoredMessage(discovery.getName())));
-            variables.add(new CommonVariable("%date%",MessagesManager.getColoredMessage(playerDataDiscovery.getDiscoverDate())));
+            variables.add(new CommonVariable("%name%",discovery.getName()));
+            variables.add(new CommonVariable("%date%",playerDataDiscovery.getDiscoverDate()));
         }else{
             if(discovery.getCustomLevelBlockedItem() != null){
                 item = commonItemManager.createItemFromCommonItem(discovery.getCustomLevelBlockedItem(),player);
@@ -293,19 +305,37 @@ public class InventoryManager {
 
         // Replace %description% variable
         ItemMeta meta = item.getItemMeta();
-        List<String> newLore = new ArrayList<>();
-        List<String> lore = meta.getLore();
-        for (String s : lore){
-            if(s.contains("%description%")){
-                List<String> description = discovery.getDescription();
-                for(String line : description){
-                    newLore.add(MessagesManager.getColoredMessage(line));
+        List<String> description = discovery.getDescription();
+        if(plugin.getConfigsManager().getMainConfigManager().isUseMiniMessage()){
+            List<Component> newLore = new ArrayList<>();
+            List<Component> lore = meta.lore();
+            PlainTextComponentSerializer plainSerializer = PlainTextComponentSerializer.plainText();
+            for(Component c : lore){
+                String plainText = plainSerializer.serialize(c);
+                if(plainText.contains("%description%")){
+                    for(String line : description){
+                        newLore.add(MiniMessage.miniMessage().deserialize(line).decoration(TextDecoration.ITALIC, false));
+                    }
+                }else{
+                    newLore.add(c);
                 }
-            }else{
-                newLore.add(MessagesManager.getColoredMessage(s));
             }
+            meta.lore(newLore);
+        }else{
+            List<String> newLore = new ArrayList<>();
+            List<String> lore = meta.getLore();
+            for (String s : lore){
+                if(s.contains("%description%")){
+                    for(String line : description){
+                        newLore.add(MessagesManager.getLegacyColoredMessage(line));
+                    }
+                }else{
+                    newLore.add(MessagesManager.getLegacyColoredMessage(s));
+                }
+            }
+            meta.setLore(newLore);
         }
-        meta.setLore(newLore);
+
         item.setItemMeta(meta);
 
         commonItemManager.replaceVariables(item,variables,player);

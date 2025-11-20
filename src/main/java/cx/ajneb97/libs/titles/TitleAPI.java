@@ -1,7 +1,10 @@
 package cx.ajneb97.libs.titles;
 
+import cx.ajneb97.api.CodexAPI;
 import cx.ajneb97.managers.MessagesManager;
 import cx.ajneb97.utils.OtherUtils;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -40,7 +43,14 @@ public class TitleAPI implements Listener {
         	if(subtitle.isEmpty()) {
         		subtitle = " ";
         	}
-    		player.sendTitle(MessagesManager.getColoredMessage(title), MessagesManager.getColoredMessage(subtitle), fadeIn, stay, fadeOut);
+
+            if(CodexAPI.getPlugin().getConfigsManager().getMainConfigManager().isUseMiniMessage()){
+                player.showTitle(Title.title(
+                        MiniMessage.miniMessage().deserialize(title),MiniMessage.miniMessage().deserialize(subtitle)
+                ));
+            }else{
+                player.sendTitle(MessagesManager.getLegacyColoredMessage(title), MessagesManager.getLegacyColoredMessage(subtitle), fadeIn, stay, fadeOut);
+            }
     		return;
     	}
     	try {

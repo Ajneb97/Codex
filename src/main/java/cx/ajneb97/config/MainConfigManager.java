@@ -20,6 +20,7 @@ public class MainConfigManager {
     private String progressBarPlaceholderFillSymbol;
     private String progressBarPlaceholderEmptySymbol;
     private int progressBarPlaceholderAmount;
+    private boolean useMiniMessage;
     private int configVersion;
 
     public MainConfigManager(Codex plugin){
@@ -38,6 +39,7 @@ public class MainConfigManager {
         progressBarPlaceholderFillSymbol = config.getString("progress_bar_placeholder.filled_symbol");
         progressBarPlaceholderEmptySymbol = config.getString("progress_bar_placeholder.empty_symbol");
         progressBarPlaceholderAmount = config.getInt("progress_bar_placeholder.amount");
+        useMiniMessage = config.getBoolean("use_minimessage");
         configVersion = config.getInt("config_version");
     }
 
@@ -53,6 +55,10 @@ public class MainConfigManager {
         Path pathConfig = Paths.get(configFile.getRoute());
         try{
             String text = new String(Files.readAllBytes(pathConfig));
+            if(!text.contains("use_minimessage:")){
+                getConfig().set("use_minimessage",false);
+                configFile.saveConfig();
+            }
             if(!text.contains("verifyServerCertificate:")){
                 getConfig().set("mysql_database.pool.connectionTimeout",5000);
                 getConfig().set("mysql_database.advanced.verifyServerCertificate",false);
@@ -103,5 +109,9 @@ public class MainConfigManager {
 
     public int getProgressBarPlaceholderAmount() {
         return progressBarPlaceholderAmount;
+    }
+
+    public boolean isUseMiniMessage() {
+        return useMiniMessage;
     }
 }
