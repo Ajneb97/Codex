@@ -10,15 +10,7 @@ import cx.ajneb97.model.inventory.InventoryPlayer;
 import cx.ajneb97.model.item.CommonItem;
 import cx.ajneb97.model.structure.Category;
 import cx.ajneb97.model.structure.Discovery;
-import cx.ajneb97.utils.ActionUtils;
-import cx.ajneb97.utils.ItemUtils;
-import cx.ajneb97.utils.OtherUtils;
-import cx.ajneb97.utils.TimeUtils;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.TextDecoration;
-import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import cx.ajneb97.utils.*;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -83,7 +75,7 @@ public class InventoryManager {
         String title = inventory.getTitle();
         Inventory inv;
         if(mainConfigManager.isUseMiniMessage()){
-            inv = Bukkit.createInventory(null,inventory.getSlots(), MiniMessage.miniMessage().deserialize(title));
+            inv = MiniMessageUtils.createInventory(inventory.getSlots(),title);
         }else{
             inv = Bukkit.createInventory(null,inventory.getSlots(), MessagesManager.getLegacyColoredMessage(title));
         }
@@ -307,20 +299,7 @@ public class InventoryManager {
         ItemMeta meta = item.getItemMeta();
         List<String> description = discovery.getDescription();
         if(plugin.getConfigsManager().getMainConfigManager().isUseMiniMessage()){
-            List<Component> newLore = new ArrayList<>();
-            List<Component> lore = meta.lore();
-            PlainTextComponentSerializer plainSerializer = PlainTextComponentSerializer.plainText();
-            for(Component c : lore){
-                String plainText = plainSerializer.serialize(c);
-                if(plainText.contains("%description%")){
-                    for(String line : description){
-                        newLore.add(MiniMessage.miniMessage().deserialize(line).decoration(TextDecoration.ITALIC, false));
-                    }
-                }else{
-                    newLore.add(c);
-                }
-            }
-            meta.lore(newLore);
+            MiniMessageUtils.setLoreDescription(meta,description);
         }else{
             List<String> newLore = new ArrayList<>();
             List<String> lore = meta.getLore();

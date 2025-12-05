@@ -2,8 +2,8 @@ package cx.ajneb97.managers;
 
 import cx.ajneb97.api.CodexAPI;
 import cx.ajneb97.libs.centeredmessage.DefaultFontInfo;
+import cx.ajneb97.utils.MiniMessageUtils;
 import cx.ajneb97.utils.OtherUtils;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.CommandSender;
 import java.util.regex.Matcher;
@@ -59,11 +59,7 @@ public class MessagesManager {
 	public void sendMessage(CommandSender sender, String message, boolean prefix){
 		if(!message.isEmpty()){
 			if(CodexAPI.getPlugin().getConfigsManager().getMainConfigManager().isUseMiniMessage()){
-				if(prefix){
-					sender.sendMessage(MiniMessage.miniMessage().deserialize(this.prefix+message));
-				}else{
-					sender.sendMessage(MiniMessage.miniMessage().deserialize(message));
-				}
+				MiniMessageUtils.messagePrefix(sender,message,prefix,this.prefix);
 			}else{
 				if(prefix){
 					sender.sendMessage(getLegacyColoredMessage(this.prefix+message));
