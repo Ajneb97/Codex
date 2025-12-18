@@ -3,6 +3,7 @@ package cx.ajneb97.commands;
 import cx.ajneb97.Codex;
 import cx.ajneb97.managers.InventoryManager;
 import cx.ajneb97.managers.MessagesManager;
+import cx.ajneb97.managers.PlayerDataManager;
 import cx.ajneb97.model.inventory.CommonInventory;
 import cx.ajneb97.model.inventory.InventoryPlayer;
 import cx.ajneb97.model.structure.Category;
@@ -183,8 +184,13 @@ public class MainCommand implements CommandExecutor, TabCompleter {
 			discovery = args[3];
 		}
 
-		String result = plugin.getPlayerDataManager().resetDataPlayer(playerName,category,discovery,messagesConfig);
-		if(result != null){
+		PlayerDataManager playerDataManager = plugin.getPlayerDataManager();
+		if(playerName.equals("*")){
+			playerDataManager.resetDataForAllPlayers(category,discovery,messagesConfig,result -> {
+				msgManager.sendMessage(sender,result,true);
+			});
+		}else{
+			String result = playerDataManager.resetDataForPlayer(playerName,category,discovery,messagesConfig);
 			msgManager.sendMessage(sender,result,true);
 		}
 	}

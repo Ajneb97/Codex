@@ -30,7 +30,6 @@ public class MySQLConnection {
             connection = new HikariConnection(config);
             connection.getHikari().getConnection();
             createTables();
-            loadData();
             Bukkit.getConsoleSender().sendMessage(MessagesManager.getLegacyColoredMessage(plugin.prefix+"&aSuccessfully connected to the Database."));
         }catch(Exception e) {
             Bukkit.getConsoleSender().sendMessage(MessagesManager.getLegacyColoredMessage(plugin.prefix+"&cError while connecting to the Database."));
@@ -44,54 +43,6 @@ public class MySQLConnection {
             e.printStackTrace();
             return null;
         }
-    }
-
-    public void loadData(){
-        Map<UUID, PlayerData> playerMap = new HashMap<>();
-        try(Connection connection = getConnection()){
-            PreparedStatement statement = connection.prepareStatement(
-                    "SELECT codex_players.UUID, codex_players.PLAYER_NAME, " +
-                            "(SELECT GROUP_CONCAT(cc.Category) FROM codex_players_completed_categories cc WHERE cc.UUID = codex_players.UUID) AS COMPLETED_CATEGORIES, " +
-                            "codex_players_discoveries.CATEGORY AS DISCOVERY_CATEGORY, " +
-                            "codex_players_discoveries.DISCOVERY, " +
-                            "codex_players_discoveries.DATE, " +
-                            "codex_players_discoveries.MILLIS_ACTIONS_EXECUTED " +
-                            "FROM codex_players " +
-                            "LEFT JOIN codex_players_discoveries ON codex_players.UUID = codex_players_discoveries.UUID");
-
-            ResultSet result = statement.executeQuery();
-            while(result.next()){
-                UUID uuid = UUID.fromString(result.getString("UUID"));
-                String playerName = result.getString("PLAYER_NAME");
-                String completedCategories = result.getString("COMPLETED_CATEGORIES");
-                String discoveryCategoryName = result.getString("DISCOVERY_CATEGORY");
-                String discoveryName = result.getString("DISCOVERY");
-                String discoveryDate = result.getString("DATE");
-                long discoveryMillisActionsExecuted = result.getLong("MILLIS_ACTIONS_EXECUTED");
-
-                PlayerData player = playerMap.get(uuid);
-                if(player == null){
-                    //Create and add it
-                    player = new PlayerData(uuid,playerName);
-                    playerMap.put(uuid, player);
-                }
-
-                if(discoveryCategoryName != null){
-                    boolean hasCompletedCategory = completedCategories != null && completedCategories.contains(discoveryCategoryName);
-                    PlayerDataCategory playerDataCategory = player.getCategory(discoveryCategoryName);
-                    if(playerDataCategory == null){
-                        playerDataCategory = new PlayerDataCategory(discoveryCategoryName,hasCompletedCategory,new ArrayList<>());
-                        player.getCategories().add(playerDataCategory);
-                    }
-
-                    playerDataCategory.getDiscoveries().add(new PlayerDataDiscovery(discoveryName,discoveryDate,discoveryMillisActionsExecuted));
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        plugin.getPlayerDataManager().setPlayers(playerMap);
     }
 
     public void createTables() {

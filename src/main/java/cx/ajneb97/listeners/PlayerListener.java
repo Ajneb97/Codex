@@ -9,6 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 public class PlayerListener implements Listener {
 
@@ -19,7 +20,7 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event){
-        plugin.getPlayerDataManager().setJoinPlayerData(event.getPlayer());
+        plugin.getPlayerDataManager().manageJoin(event.getPlayer());
 
         //Update notification
         Player player = event.getPlayer();
@@ -37,5 +38,10 @@ public class PlayerListener implements Listener {
             String customName = e.getCustomName() != null ? ChatColor.stripColor(e.getCustomName()) : null;
             plugin.getDiscoveryManager().onMobKill(e.getKiller(),e.getType().name(),customName);
         }
+    }
+
+    @EventHandler
+    public void onLeave(PlayerQuitEvent event){
+        plugin.getPlayerDataManager().manageLeave(event.getPlayer());
     }
 }

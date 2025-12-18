@@ -34,10 +34,17 @@ public abstract class DataFolderConfigManager {
         }
     }
 
-    public CommonConfig getConfigFile(String pathName) {
-        CommonConfig config = new CommonConfig(pathName, plugin, folderName, true);
-        config.registerConfig();
-        return config;
+    public CommonConfig getConfigFile(String pathName,boolean create) {
+        String pathFile = plugin.getDataFolder() + File.separator + folderName;
+        File folder = new File(pathFile);
+        File file = new File(folder, pathName);
+        if(!file.exists() && !create) {
+            return null;
+        }
+
+        CommonConfig commonConfig = new CommonConfig(pathName, plugin, folderName, true);
+        commonConfig.registerConfig();
+        return commonConfig;
     }
 
     public ArrayList<CommonConfig> getConfigs(){
