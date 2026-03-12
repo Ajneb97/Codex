@@ -44,7 +44,7 @@ public class TitleAPI implements Listener {
         	}
 
             if(CodexAPI.getPlugin().getConfigsManager().getMainConfigManager().isUseMiniMessage()){
-                MiniMessageUtils.title(player,title,subtitle);
+                MiniMessageUtils.title(player,title,subtitle,fadeIn,stay,fadeOut);
             }else{
                 player.sendTitle(MessagesManager.getLegacyColoredMessage(title), MessagesManager.getLegacyColoredMessage(subtitle), fadeIn, stay, fadeOut);
             }

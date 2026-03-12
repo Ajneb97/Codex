@@ -243,13 +243,13 @@ public class InventoryManager {
         int max = category.getDiscoveries().size();
         int totalDiscoveries = playerDataManager.getTotalDiscoveries(player,categoryName);
         String unlockedVariable = OtherUtils.getCurrentUnlockedVariable(totalDiscoveries,max,plugin.getMessagesConfig());
-        commonItem = category.getCategoryItem();
+        commonItem = category.getCategoryItem().clone();
         variables.add(new CommonVariable("%progress_bar%", OtherUtils.getProgressBar(totalDiscoveries,max,plugin.getConfigsManager().getMainConfigManager())));
         variables.add(new CommonVariable("%percentage%", OtherUtils.getPercentage(totalDiscoveries,max)+"%"));
         variables.add(new CommonVariable("%unlocked%", unlockedVariable));
 
+        commonItemManager.replaceVariables(commonItem,variables,player);
         ItemStack item = commonItemManager.createItemFromCommonItem(commonItem,player);
-        commonItemManager.replaceVariables(item,variables,player);
 
         item = ItemUtils.setTagStringItem(plugin,item,"codex_category",categoryName);
         return item;
@@ -278,46 +278,40 @@ public class InventoryManager {
         ArrayList<CommonVariable> variables = new ArrayList<>();
         PlayerDataDiscovery playerDataDiscovery = playerDataManager.getDiscovery(player,category.getName(),discoveryName);
 
-        ItemStack item;
+        CommonItem commonItem;
         if(playerDataDiscovery != null){
             if(discovery.getCustomLevelUnlockedItem() != null){
-                item = commonItemManager.createItemFromCommonItem(discovery.getCustomLevelUnlockedItem(),player);
+                commonItem = discovery.getCustomLevelUnlockedItem();
             }else{
-                item = commonItemManager.createItemFromCommonItem(category.getDefaultLevelUnlockedItem(),player);
+                commonItem = category.getDefaultLevelUnlockedItem();
             }
             variables.add(new CommonVariable("%name%",discovery.getName()));
             variables.add(new CommonVariable("%date%",playerDataDiscovery.getDiscoverDate()));
         }else{
             if(discovery.getCustomLevelBlockedItem() != null){
-                item = commonItemManager.createItemFromCommonItem(discovery.getCustomLevelBlockedItem(),player);
+                commonItem = discovery.getCustomLevelBlockedItem();
             }else{
-                item = commonItemManager.createItemFromCommonItem(category.getDefaultLevelBlockedItem(),player);
+                commonItem = category.getDefaultLevelBlockedItem();
             }
         }
+
+        commonItem = commonItem.clone();
 
         // Replace %description% variable
-        ItemMeta meta = item.getItemMeta();
         List<String> description = discovery.getDescription();
-        if(plugin.getConfigsManager().getMainConfigManager().isUseMiniMessage()){
-            MiniMessageUtils.setLoreDescription(meta,description);
-        }else{
-            List<String> newLore = new ArrayList<>();
-            List<String> lore = meta.getLore();
-            for (String s : lore){
-                if(s.contains("%description%")){
-                    for(String line : description){
-                        newLore.add(MessagesManager.getLegacyColoredMessage(line));
-                    }
-                }else{
-                    newLore.add(MessagesManager.getLegacyColoredMessage(s));
-                }
+        List<String> newLore = new ArrayList<>();
+        List<String> lore = commonItem.getLore();
+        for (String s : lore){
+            if(s.contains("%description%")){
+                newLore.addAll(description);
+            }else{
+                newLore.add(s);
             }
-            meta.setLore(newLore);
         }
+        commonItem.setLore(newLore);
 
-        item.setItemMeta(meta);
-
-        commonItemManager.replaceVariables(item,variables,player);
+        commonItemManager.replaceVariables(commonItem,variables,player);
+        ItemStack item = commonItemManager.createItemFromCommonItem(commonItem,player);
 
         item = ItemUtils.setTagStringItem(plugin,item,"codex_discovery",discoveryName);
         return item;

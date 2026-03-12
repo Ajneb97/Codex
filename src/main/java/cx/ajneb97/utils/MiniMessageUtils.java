@@ -30,9 +30,10 @@ public class MiniMessageUtils {
         }
     }
 
-    public static void title(Player player, String title, String subtitle){
+    public static void title(Player player, String title, String subtitle, Integer fadeIn, Integer stay, Integer fadeOut){
         player.showTitle(Title.title(
-                MiniMessage.miniMessage().deserialize(title),MiniMessage.miniMessage().deserialize(subtitle)
+                MiniMessage.miniMessage().deserialize(title),MiniMessage.miniMessage().deserialize(subtitle),
+                fadeIn,stay,fadeOut
         ));
     }
 
@@ -75,50 +76,4 @@ public class MiniMessageUtils {
         meta.lore(loreComponent);
     }
 
-    public static void replaceVariablesItemName(ItemMeta meta,ArrayList<CommonVariable> variables, Player player, Codex plugin){
-        Component name = meta.displayName();
-        Component newName = name;
-        for(CommonVariable variable : variables){
-            String finalValue = OtherUtils.replaceGlobalVariables(variable.getValue(),player,plugin);
-            newName = newName.replaceText(TextReplacementConfig.builder()
-                    .matchLiteral(variable.getVariable())
-                    .replacement(MiniMessage.miniMessage().deserialize(finalValue))
-                    .build());
-        }
-        meta.displayName(newName);
-    }
-
-    public static void replaceVariablesItemLore(ItemMeta meta,ArrayList<CommonVariable> variables, Player player, Codex plugin){
-        List<Component> lore = meta.lore();
-        List<Component> newLore = new ArrayList<>();
-        for(Component c : lore){
-            Component newComponent = c;
-            for(CommonVariable variable : variables){
-                String finalValue = OtherUtils.replaceGlobalVariables(variable.getValue(),player,plugin);
-                newComponent = newComponent.replaceText(TextReplacementConfig.builder()
-                        .matchLiteral(variable.getVariable())
-                        .replacement(MiniMessage.miniMessage().deserialize(finalValue))
-                        .build());
-            }
-            newLore.add(newComponent);
-        }
-        meta.lore(newLore);
-    }
-
-    public static void setLoreDescription(ItemMeta meta, List<String> description){
-        List<Component> newLore = new ArrayList<>();
-        List<Component> lore = meta.lore();
-        PlainTextComponentSerializer plainSerializer = PlainTextComponentSerializer.plainText();
-        for(Component c : lore){
-            String plainText = plainSerializer.serialize(c);
-            if(plainText.contains("%description%")){
-                for(String line : description){
-                    newLore.add(MiniMessage.miniMessage().deserialize(line).decoration(TextDecoration.ITALIC, false));
-                }
-            }else{
-                newLore.add(c);
-            }
-        }
-        meta.lore(newLore);
-    }
 }

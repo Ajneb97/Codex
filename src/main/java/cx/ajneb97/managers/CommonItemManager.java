@@ -605,39 +605,26 @@ public class CommonItemManager {
         return commonItem;
     }
 
-    public void replaceVariables(ItemStack item, ArrayList<CommonVariable> variables, Player player){
-        boolean useMiniMessage = plugin.getConfigsManager().getMainConfigManager().isUseMiniMessage();
-        if(item.hasItemMeta()){
-            ItemMeta meta = item.getItemMeta();
-            if(meta.hasDisplayName()){
-                if(useMiniMessage){
-                    MiniMessageUtils.replaceVariablesItemName(meta,variables,player,plugin);
-                }else{
-                    String newName = meta.getDisplayName();
-                    for(CommonVariable variable : variables){
-                        newName = newName.replace(variable.getVariable(),variable.getValue());
-                    }
-                    newName = OtherUtils.replaceGlobalVariables(newName,player,plugin);
-                    meta.setDisplayName(MessagesManager.getLegacyColoredMessage(newName));
-                }
+    public void replaceVariables(CommonItem commonItem, ArrayList<CommonVariable> variables, Player player){
+        if(commonItem.getName() != null){
+            String newName = commonItem.getName();
+            for(CommonVariable variable : variables){
+                newName = newName.replace(variable.getVariable(),variable.getValue());
             }
+            newName = OtherUtils.replaceGlobalVariables(newName,player,plugin);
+            commonItem.setName(newName);
+        }
 
-            if(meta.hasLore()){
-                if(useMiniMessage){
-                    MiniMessageUtils.replaceVariablesItemLore(meta,variables,player,plugin);
-                }else{
-                    List<String> lore = meta.getLore();
-                    for(int i=0;i<lore.size();i++){
-                        for(CommonVariable variable : variables){
-                            String line = lore.get(i).replace(variable.getVariable(),variable.getValue());
-                            line = OtherUtils.replaceGlobalVariables(line,player,plugin);
-                            lore.set(i,MessagesManager.getLegacyColoredMessage(line));
-                        }
-                    }
-                    meta.setLore(lore);
+        if(commonItem.getLore() != null){
+            List<String> lore = commonItem.getLore();
+            for(int i=0;i<lore.size();i++){
+                for(CommonVariable variable : variables){
+                    String line = lore.get(i).replace(variable.getVariable(),variable.getValue());
+                    line = OtherUtils.replaceGlobalVariables(line,player,plugin);
+                    lore.set(i,line);
                 }
             }
-            item.setItemMeta(meta);
+            commonItem.setLore(lore);
         }
     }
 
