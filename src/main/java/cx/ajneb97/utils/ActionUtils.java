@@ -46,6 +46,9 @@ public class ActionUtils {
             case "playsound":
                 ActionUtils.playSound(player,actionLine);
                 break;
+            case "playsound_resource_pack":
+                ActionUtils.playSoundResourcePack(player,actionLine);
+                break;
             case "title":
                 ActionUtils.title(player,actionLine);
                 break;
@@ -66,6 +69,14 @@ public class ActionUtils {
             return;
         }
 
+        player.playSound(player.getLocation(), sound, volume, pitch);
+    }
+
+    private static void playSoundResourcePack(Player player, String soundLine){
+        String[] sep = soundLine.split(";");
+        String sound = sep[0];
+        float volume = Float.parseFloat(sep[1]);
+        float pitch = Float.parseFloat(sep[2]);
         player.playSound(player.getLocation(), sound, volume, pitch);
     }
 
