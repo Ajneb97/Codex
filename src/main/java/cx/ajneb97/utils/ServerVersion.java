@@ -1,5 +1,9 @@
 package cx.ajneb97.utils;
 
+import org.bukkit.Bukkit;
+
+import java.lang.reflect.Method;
+
 public enum ServerVersion {
     v1_8_R1,
     v1_8_R2,
@@ -33,9 +37,19 @@ public enum ServerVersion {
     v1_21_R5,
     v1_21_R6,
     v1_21_R7,
-    v26_1;
+    v26_1,
+    v26_2;
 
     public boolean serverVersionGreaterEqualThan(ServerVersion version1,ServerVersion version2){
         return version1.ordinal() >= version2.ordinal();
+    }
+
+    public static String getMinecraftVersion() {
+        try {
+            Method method = Bukkit.class.getMethod("getMinecraftVersion");
+            return (String) method.invoke(null);
+        } catch (Exception ignored) {
+            return Bukkit.getServer().getBukkitVersion().split("-")[0];
+        }
     }
 }
