@@ -93,6 +93,10 @@ public class Codex extends JavaPlugin {
     public void onDisable(){
         configsManager.getPlayersConfigManager().saveConfigs();
 
+        if(mySQLConnection != null){
+            mySQLConnection.shutdown();
+        }
+
         Bukkit.getConsoleSender().sendMessage(prefix+MessagesManager.getLegacyColoredMessage("&eHas been disabled! &fVersion: "+version));
     }
     public void registerCommands(){

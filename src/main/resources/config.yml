@@ -26,8 +26,14 @@ mysql_database:
   username: root
   password: root
   database: database
+
+  # Pool properties:
+  # https://github.com/brettwooldridge/HikariCP#configuration-knobs-baby
   pool:
     connectionTimeout: 5000
+
+  # Advanced properties:
+  # https://dev.mysql.com/doc/connector-j/en/connector-j-reference-configuration-properties.html
   advanced:
     verifyServerCertificate: false
     useSSL: true
